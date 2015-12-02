@@ -13,7 +13,9 @@
               $.each(JSON.parse(data), function(i, obj) {
                 $('span.att-value#'+obj.id).next().replaceWith('<span class="badge">'+obj.qty+'</span>');
                 $('span.att-value').next('.fa-spinner').replaceWith(' <span class="badge">0</span>');
+                // $(".js_attributes li.attribute:contains(0)").remove();
               });
+          $(".js_attributes li.attribute").has("span.badge:contains('0')").remove();
           });
     });
 

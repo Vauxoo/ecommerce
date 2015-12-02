@@ -13,6 +13,7 @@
               $.each(JSON.parse(data), function(i, obj) {
                 $('.upper'+obj.id).next().replaceWith('<span class="badge">'+obj.qty+'</span>');
               });
+            $("span.badge:contains(0)").parents('li.range').remove();
             });
     });
 
