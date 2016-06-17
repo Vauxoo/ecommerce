@@ -1,6 +1,7 @@
 # coding: utf-8
 from openerp import http
 from openerp.http import request
+from operator import itemgetter
 from openerp.addons.website_sale.controllers.main import website_sale
 from openerp.addons.website_sale.controllers.main import QueryURL
 
@@ -27,9 +28,7 @@ class WebsiteSale(website_sale):
                                             search=search, ppg=ppg,
                                             **post)
 
-        attributes_obj = pool['product.attribute']
         ranges_obj = pool['product.price.ranges']
-        brand_obj = pool['product.brand']
         category_obj = pool['product.public.category']
         ranges_list = request.httprequest.args.getlist('range')
         brand_list = request.httprequest.args.getlist('brand')
@@ -43,16 +42,15 @@ class WebsiteSale(website_sale):
         attrs_unknown = {}
         categ_id = (isinstance(category, int) or
                     isinstance(category, (str, unicode))) and \
-            int(category) or category.id
-        attribute_ids, att_unkn_ids = category_obj.\
+            int(category) or category and category.id or 0
+        attributes_ids, att_unkn_ids = category_obj.\
             _get_attributes_related(cr, uid,
                                     categ_id, context)
         attrs_unknown.fromkeys(att_unkn_ids, True)
-        brand_ids = category_obj.\
+        brands = category_obj.\
             _get_brands_related(cr, uid,
                                 categ_id, context)
-        attributes = attributes_obj.browse(cr, uid, attribute_ids,
-                                           context=context)
+        attributes = pool['product.attribute'].browse(cr, uid, attributes_ids)
         res.qcontext['attributes'] = attributes
         res.qcontext['attrs_unknown'] = attrs_unknown
         filtered_products = res.qcontext['products']
@@ -73,16 +71,15 @@ class WebsiteSale(website_sale):
             res.qcontext['products'] = []
             res.qcontext['pager']['page_count'] = 0
         else:
-            keys = {
-                '0': filtered_products,
-                'name': filtered_products.sorted(key=lambda r: r.name),
-                'pasc': filtered_products.sorted(key=lambda r: r.lst_price),
-                'pdesc': filtered_products.sorted(key=lambda r: r.lst_price,
-                                                  reverse=True),
-                'hottest':
-                    filtered_products.sorted(key=lambda r: r.create_date),
-                'rating': filtered_products.sorted(key=lambda r: r.rating),
-                'popularity': filtered_products.sorted(key=lambda r: r.views)}
+            values = ('name', 'pasc-lst_price', 'pdesc-lst_price',
+                      'hottest-create_date', 'rating', 'popularity-views')
+            keys = {}
+            for val in values:
+                fields, rever = val.split('-'), 'pdesc' in val
+                keys[fields[0]] = filtered_products.\
+                    sorted(key=itemgetter(fields[-1]), reverse=rever)
+            keys['0'] = filtered_products
+
             if post.get('product_sorter', '0') != '0':
                 sortby = post['product_sorter']
                 res.qcontext['sortby'] = sortby
@@ -97,6 +94,7 @@ class WebsiteSale(website_sale):
                 ordered_products = filtered_products
             res.qcontext['products'] = ordered_products
 
+        attribute_ids = attributes.ids
         for arg in args.get('attrib', []):
             attr_id = arg.split('-')
             if int(attr_id[0]) not in attribute_ids:
@@ -104,7 +102,6 @@ class WebsiteSale(website_sale):
                     '/shop',
                     category=category and int(category),
                     search=search)
-        brands = brand_obj.browse(cr, uid, brand_ids, context=context)
 
         parent_category_ids = []
         if category:

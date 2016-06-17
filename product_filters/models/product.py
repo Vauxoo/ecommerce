@@ -25,8 +25,6 @@
 from openerp import models, fields, api
 
 
-
-
 class ProductPriceRanges(models.Model):
     _name = "product.price.ranges"
 
@@ -117,14 +115,18 @@ class ProductCategory(models.Model):
         @rtype: list, list
 
         """
-        self.ensure_one()
-        att_ids = self.env['product.attribute.line'].\
-            search([('product_tmpl_id', 'in', self.product_ids.ids)])
-        att_ids_wh_value = att_ids.filtered(lambda a: not a.value_ids)
-        att_ids = att_ids - att_ids_wh_value
-        att_ids = att_ids.mapped('attribute_id')
-        att_ids_wh_value = att_ids_wh_value.mapped('attribute_id')
-        return att_ids.ids, att_ids_wh_value.ids
+        attr_ids = set()
+        attr_ids2 = set()
+        attr = self.env['product.attribute.line'].\
+            search_read([('product_tmpl_id', 'in', self.product_ids.ids)],
+                        ['attribute_id', 'value_ids'])
+        for i in attr:
+            if not isinstance(i, dict):
+                continue
+            attr_ids.add(i.get('attribute_id')[0])
+            not i.get('value_ids') and \
+                attr_ids2.add(i.get('attribute_id')[0])
+        return list(attr_ids), list(attr_ids2)
 
     @api.multi
     def _get_brands_related(self):
@@ -132,11 +134,9 @@ class ProductCategory(models.Model):
 
         @return: Ids of the branch related to the category
         @rtype: list
-
         """
-        self.ensure_one()
         brand_ids = self.product_ids.mapped('product_brand_id')
-        return brand_ids.ids
+        return brand_ids
 
     @api.multi
     def _get_product_sorted(self, sort, limit=3):
@@ -152,7 +152,6 @@ class ProductCategory(models.Model):
         considering the domain used in the search function
         @rtype: recordset
         """
-        self.ensure_one()
         domain = [('website_published', '=', True),
                   ('public_categ_ids', 'child_of', self.id)]
 
