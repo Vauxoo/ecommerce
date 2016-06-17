@@ -115,18 +115,26 @@ class ProductCategory(models.Model):
         @rtype: list, list
 
         """
-        attr_ids = set()
-        attr_ids2 = set()
-        attr = self.env['product.attribute.line'].\
-            search_read([('product_tmpl_id', 'in', self.product_ids.ids)],
-                        ['attribute_id', 'value_ids'])
-        for i in attr:
-            if not isinstance(i, dict):
-                continue
-            attr_ids.add(i.get('attribute_id')[0])
-            not i.get('value_ids') and \
-                attr_ids2.add(i.get('attribute_id')[0])
-        return list(attr_ids), list(attr_ids2)
+        attr_ids = []
+        attr_ids2 = []
+        self._cr.execute('''
+                    SELECT
+                    l.attribute_id,
+                    array_agg(v.val_id)
+                    FROM
+                    product_attribute_line AS l
+                    LEFT OUTER JOIN
+                    product_attribute_line_product_attribute_value_rel AS v ON
+                    v.line_id=l.id
+                    WHERE
+                    product_tmpl_id IN %s
+                    GROUP BY
+                    l.attribute_id
+                         ''', (tuple(self.product_ids.ids),))
+        for i in self._cr.fetchall():
+            attr_ids.append(i[0])
+            None in i[1] and attr_ids2.append(i[0])
+        return attr_ids, attr_ids2
 
     @api.multi
     def _get_brands_related(self):
