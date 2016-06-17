@@ -25,8 +25,6 @@
 from openerp import models, fields, api
 
 
-
-
 class ProductPriceRanges(models.Model):
     _name = "product.price.ranges"
 
@@ -117,14 +115,26 @@ class ProductCategory(models.Model):
         @rtype: list, list
 
         """
-        self.ensure_one()
-        att_ids = self.env['product.attribute.line'].\
-            search([('product_tmpl_id', 'in', self.product_ids.ids)])
-        att_ids_wh_value = att_ids.filtered(lambda a: not a.value_ids)
-        att_ids = att_ids - att_ids_wh_value
-        att_ids = att_ids.mapped('attribute_id')
-        att_ids_wh_value = att_ids_wh_value.mapped('attribute_id')
-        return att_ids.ids, att_ids_wh_value.ids
+        attr_ids = []
+        attr_ids2 = []
+        self._cr.execute('''
+                    SELECT
+                    l.attribute_id,
+                    array_agg(v.val_id)
+                    FROM
+                    product_attribute_line AS l
+                    LEFT OUTER JOIN
+                    product_attribute_line_product_attribute_value_rel AS v ON
+                    v.line_id=l.id
+                    WHERE
+                    product_tmpl_id IN %s
+                    GROUP BY
+                    l.attribute_id
+                         ''', (tuple(self.product_ids.ids or (0,)),))
+        for i in self._cr.fetchall():
+            attr_ids.append(i[0])
+            None in i[1] and attr_ids2.append(i[0])
+        return attr_ids, attr_ids2
 
     @api.multi
     def _get_brands_related(self):
@@ -132,11 +142,9 @@ class ProductCategory(models.Model):
 
         @return: Ids of the branch related to the category
         @rtype: list
-
         """
-        self.ensure_one()
         brand_ids = self.product_ids.mapped('product_brand_id')
-        return brand_ids.ids
+        return brand_ids
 
     @api.multi
     def _get_product_sorted(self, sort, limit=3):
@@ -152,7 +160,6 @@ class ProductCategory(models.Model):
         considering the domain used in the search function
         @rtype: recordset
         """
-        self.ensure_one()
         domain = [('website_published', '=', True),
                   ('public_categ_ids', 'child_of', self.id)]
 
