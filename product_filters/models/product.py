@@ -130,7 +130,7 @@ class ProductCategory(models.Model):
                     product_tmpl_id IN %s
                     GROUP BY
                     l.attribute_id
-                         ''', (tuple(self.product_ids.ids),))
+                         ''', (tuple(self.product_ids.ids or (0,)),))
         for i in self._cr.fetchall():
             attr_ids.append(i[0])
             None in i[1] and attr_ids2.append(i[0])
