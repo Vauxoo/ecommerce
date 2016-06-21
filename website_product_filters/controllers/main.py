@@ -1,7 +1,6 @@
 # coding: utf-8
 from openerp import http
 from openerp.http import request
-from operator import itemgetter
 from openerp.addons.website_sale.controllers.main import website_sale
 from openerp.addons.website_sale.controllers.main import QueryURL
 
@@ -71,27 +70,37 @@ class WebsiteSale(website_sale):
             res.qcontext['products'] = []
             res.qcontext['pager']['page_count'] = 0
         else:
-            values = ('name', 'pasc-lst_price', 'pdesc-lst_price',
-                      'hottest-create_date', 'rating', 'popularity-views')
-            keys = {}
-            for val in values:
-                fields, rever = val.split('-'), 'pdesc' in val
-                keys[fields[0]] = filtered_products.\
-                    sorted(key=itemgetter(fields[-1]), reverse=rever)
-            keys['0'] = filtered_products
+            default_cookie = request.httprequest.cookies.get('default_sort',
+                                                             'False')
 
-            if post.get('product_sorter', '0') != '0':
-                sortby = post['product_sorter']
-                res.qcontext['sortby'] = sortby
-                ordered_products = keys.get(sortby)
-            elif request.httprequest.cookies.get('default_sort', 'False') != 'False':  # noqa
-                sortby = request.httprequest.cookies.get('default_sort')
-                ordered_products = keys.get(sortby)
-            elif request.httprequest.cookies.get('default_sort') == 'False':
-                sortby = request.website.default_sort
-                ordered_products = keys.get(sortby)
-            else:
-                ordered_products = filtered_products
+            sortby = (post.get('product_sorter', '0') != '0') and \
+                post['product_sorter'] or \
+                (default_cookie != 'False') and \
+                default_cookie or \
+                (default_cookie == 'False') and \
+                request.website.default_sort or 'None'
+
+            values = {
+                'name': 'name',
+                'pasc': 'lst_price',
+                'pdesc': 'lst_price',
+                'hottest': 'create_date',
+                'rating': 'rating',
+                'popularity': 'views'}
+
+            ordered = values.get(sortby, False) and \
+                filtered_products.\
+                sorted(key=lambda a: sortby == 'name' and
+                       getattr(a, values[sortby]).upper() or
+                       getattr(a, values[sortby]),
+                       reverse=('pdesc' == sortby)) or \
+                filtered_products
+
+            ordered_products = ordered
+
+            post.get('product_sorter', '0') != '0' and \
+                res.qcontext.update({'sortby': sortby})
+
             res.qcontext['products'] = ordered_products
 
         attribute_ids = attributes.ids
