@@ -13,7 +13,8 @@ class WebsiteSale(website_sale):
         '/shop/category/<model("product.public.category"):category>',
         '/shop/category/<model("product.public.category"):category>/page/<int:page>',  # noqa
         '/shop/brands'], type='http', auth="public", website=True)
-    def shop(self, page=0, category=None, search='', ppg=False, **post):
+    def shop(self, page=0, category=None, search='', brand='', ppg=False,
+             **post):
         """This method was inherited wit the purpose of filtering attributes
         instead of showing all that exist on the instance, it will allow
         to show attribute filters based on the selected category.
@@ -110,8 +111,17 @@ class WebsiteSale(website_sale):
                 res.qcontext['keep'] = QueryURL(
                     '/shop',
                     category=category and int(category),
-                    search=search)
-
+                    search=search, brand=brand)
+        if brand_selected_ids:
+            res.qcontext['keep'] = QueryURL(
+                '/shop',
+                category=category and int(category),
+                search=search,
+                brand=brand_selected_ids[0]
+            )
+        if not category and brand_selected_ids:
+            category = pool['product.brand'].\
+                _get_categories_related(cr, uid, brand_selected_ids)
         parent_category_ids = []
         if category:
             categs = category
@@ -119,11 +129,10 @@ class WebsiteSale(website_sale):
             domain = [('parent_id', '=', False)]
             categ_ids = category_obj.search(cr, uid, domain, context=context)
             categs = category_obj.browse(cr, uid, categ_ids, context=context)
-        found_products = res.qcontext.get('products', False)
         res.qcontext['parent_category_ids'] = parent_category_ids
-        res.qcontext['brands'] = brands if found_products else []
+        res.qcontext['brands'] = brands
         res.qcontext['categories'] = categs
-        res.qcontext['price_ranges'] = ranges if found_products else []
+        res.qcontext['price_ranges'] = ranges
         res.qcontext['brand_set'] = brand_selected_ids
         res.qcontext['ranges_set'] = ranges_selected_ids
         res.qcontext['unknown_set'] = unknown_set

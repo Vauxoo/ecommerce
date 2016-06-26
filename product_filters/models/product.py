@@ -118,17 +118,17 @@ class ProductCategory(models.Model):
         attr_ids = []
         attr_ids2 = []
         self._cr.execute('''
-                    SELECT
+                SELECT
                     l.attribute_id,
                     array_agg(v.val_id)
-                    FROM
+                FROM
                     product_attribute_line AS l
-                    LEFT OUTER JOIN
+                LEFT OUTER JOIN
                     product_attribute_line_product_attribute_value_rel AS v ON
                     v.line_id=l.id
-                    WHERE
+                WHERE
                     product_tmpl_id IN %s
-                    GROUP BY
+                GROUP BY
                     l.attribute_id
                          ''', (tuple(self.product_ids.ids or (0,)),))
         for i in self._cr.fetchall():
@@ -167,3 +167,24 @@ class ProductCategory(models.Model):
         product_ids = self.env['product.template'].\
             search(domain, limit=limit, order=sort)
         return product_ids
+
+
+class ProductBrand(models.Model):
+    _inherit = 'product.brand'
+
+    @api.multi
+    def _get_categories_related(self):
+        """Get the public categories related
+        with the products that contain these brands
+
+        @return: All public categories related with the brands
+        @rtype: RecordSet
+        """
+
+        pcategory = self.env['product.public.category']
+        products = self.env['product.product'].\
+            search([('product_brand_id', 'in', self.ids),
+                    ('public_categ_ids', '!=', False)])
+        for product in products:
+            pcategory = pcategory | product.public_categ_ids
+        return pcategory
