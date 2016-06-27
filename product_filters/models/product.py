@@ -31,6 +31,22 @@ class ProductPriceRanges(models.Model):
     lower = fields.Integer("Lower")
     upper = fields.Integer("Upper")
 
+    @api.model
+    def _get_all_ranges(self, domain=None):
+        """Get price ranges given a domain, if the domain is not sent all
+        ranges will be returned
+
+        @param domain: Basic domain used in search method, to search ranges
+        with specific values
+        @param: list
+
+        @return: Records found by the search method
+        @rtype: RecordSet
+        """
+        domain = domain or []
+        records = self.search(domain)
+        return records
+
 
 class ProductCategory(models.Model):
     _inherit = 'product.public.category'
@@ -167,6 +183,22 @@ class ProductCategory(models.Model):
         product_ids = self.env['product.template'].\
             search(domain, limit=limit, order=sort)
         return product_ids
+
+    @api.model
+    def _get_all_categories(self, domain=None):
+        """Get categories given a domain, if the domain is not sent all
+        ranges will be returned
+
+        @param domain: Basic domain used in search method, to search ranges
+        with specific values
+        @param: list
+
+        @return: Records found by the search method
+        @rtype: RecordSet
+        """
+        domain = domain or []
+        records = self.search(domain)
+        return records
 
 
 class ProductBrand(models.Model):

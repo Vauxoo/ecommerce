@@ -25,7 +25,8 @@ class WebsiteSale(website_sale):
                                   request.registry)
         res = super(WebsiteSale, self).shop(page=page,
                                             category=category,
-                                            search=search, ppg=ppg,
+                                            search=search, brand=brand,
+                                            ppg=ppg,
                                             **post)
 
         ranges_obj = pool['product.price.ranges']
@@ -37,8 +38,7 @@ class WebsiteSale(website_sale):
         brand_selected_ids = [int(b) for b in brand_list if b]
         ranges_selected_ids = [int(v) for v in ranges_list if v]
         unknown_set = set([x[0] for x in unknown_values])
-        ranges_ids = ranges_obj.search(cr, uid, [], context=context)
-        ranges = ranges_obj.browse(cr, uid, ranges_ids, context=context)
+        ranges = ranges_obj._get_all_ranges(cr, uid, [])
         attrs_unknown = {}
         categ_id = (isinstance(category, int) or
                     isinstance(category, (str, unicode))) and \
@@ -105,31 +105,24 @@ class WebsiteSale(website_sale):
             res.qcontext['products'] = ordered_products
 
         attribute_ids = attributes.ids
-        for arg in args.get('attrib', []):
-            attr_id = arg.split('-')
-            if int(attr_id[0]) not in attribute_ids:
-                res.qcontext['keep'] = QueryURL(
+        attribs = [i.split('-')[0] for i in args.get('attrib', [])]
+        (list(set(attribs) - set(attribute_ids)) or
+         brand_selected_ids) and \
+            res.qcontext.update({
+                'keep': QueryURL(
                     '/shop',
                     category=category and int(category),
-                    search=search, brand=brand)
-        if brand_selected_ids:
-            res.qcontext['keep'] = QueryURL(
-                '/shop',
-                category=category and int(category),
-                search=search,
-                brand=brand_selected_ids[0]
-            )
-        if not category and brand_selected_ids:
-            category = pool['product.brand'].\
-                _get_categories_related(cr, uid, brand_selected_ids)
-        parent_category_ids = []
-        if category:
-            categs = category
-        else:
-            domain = [('parent_id', '=', False)]
-            categ_ids = category_obj.search(cr, uid, domain, context=context)
-            categs = category_obj.browse(cr, uid, categ_ids, context=context)
-        res.qcontext['parent_category_ids'] = parent_category_ids
+                    search=search,
+                    brand=brand_selected_ids and
+                    brand_selected_ids[0] or brand)})
+        category = (brand_selected_ids and not
+                    category) and pool['product.brand'].\
+            _get_categories_related(cr, uid, brand_selected_ids) or \
+            category
+        categs = category or \
+            category_obj._get_all_categories(cr, uid,
+                                             [('parent_id', '=', False)])
+        res.qcontext['parent_category_ids'] = []
         res.qcontext['brands'] = brands
         res.qcontext['categories'] = categs
         res.qcontext['price_ranges'] = ranges

@@ -58,10 +58,9 @@ class Website(models.Model):
             line_obj = self.env['product.attribute.line']
             unknown_list = request.httprequest.args.getlist('unknown')
             values = [map(int, v.split("-")) for v in unknown_list if v]
-            if values:
-                ids = []
-                for value in values:
-                    if value[0] not in ids:
+            ids = []
+            for value in values:
+                if value[0] not in ids:
                         ids.append(value[0])
             line_ids = line_obj.search([('attribute_id', 'in', ids),
                                         ('value_ids', '=', False)])
