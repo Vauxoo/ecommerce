@@ -13,7 +13,8 @@ class WebsiteSale(website_sale):
         '/shop/category/<model("product.public.category"):category>',
         '/shop/category/<model("product.public.category"):category>/page/<int:page>',  # noqa
         '/shop/brands'], type='http', auth="public", website=True)
-    def shop(self, page=0, category=None, search='', ppg=False, **post):
+    def shop(self, page=0, category=None, search='', brand='', ppg=False,
+             **post):
         """This method was inherited wit the purpose of filtering attributes
         instead of showing all that exist on the instance, it will allow
         to show attribute filters based on the selected category.
@@ -24,12 +25,11 @@ class WebsiteSale(website_sale):
                                   request.registry)
         res = super(WebsiteSale, self).shop(page=page,
                                             category=category,
-                                            search=search, ppg=ppg,
+                                            search=search, brand=brand,
+                                            ppg=ppg,
                                             **post)
 
-        attributes_obj = pool['product.attribute']
         ranges_obj = pool['product.price.ranges']
-        brand_obj = pool['product.brand']
         category_obj = pool['product.public.category']
         ranges_list = request.httprequest.args.getlist('range')
         brand_list = request.httprequest.args.getlist('brand')
@@ -38,12 +38,19 @@ class WebsiteSale(website_sale):
         brand_selected_ids = [int(b) for b in brand_list if b]
         ranges_selected_ids = [int(v) for v in ranges_list if v]
         unknown_set = set([x[0] for x in unknown_values])
-        ranges_ids = ranges_obj.search(cr, uid, [], context=context)
-        ranges = ranges_obj.browse(cr, uid, ranges_ids, context=context)
-        attribute_ids, attrs_unknown = self._get_used_attrs(category)
-        brand_ids = self._get_category_brands(category)
-        attributes = attributes_obj.browse(cr, uid, attribute_ids,
-                                           context=context)
+        ranges = ranges_obj._get_all_ranges(cr, uid, [])
+        attrs_unknown = {}
+        categ_id = (isinstance(category, int) or
+                    isinstance(category, (str, unicode))) and \
+            int(category) or category and category.id or 0
+        attributes_ids, att_unkn_ids = category_obj.\
+            _get_attributes_related(cr, uid,
+                                    categ_id, context)
+        attrs_unknown.fromkeys(att_unkn_ids, True)
+        brands = category_obj.\
+            _get_brands_related(cr, uid,
+                                categ_id, context)
+        attributes = pool['product.attribute'].browse(cr, uid, attributes_ids)
         res.qcontext['attributes'] = attributes
         res.qcontext['attrs_unknown'] = attrs_unknown
         filtered_products = res.qcontext['products']
@@ -51,22 +58,12 @@ class WebsiteSale(website_sale):
         if category and category.child_id and not search:
             ordered_products = []
             res.qcontext['pager']['page_count'] = 0
-            product_obj = pool['product.template']
-            popular_ids = product_obj.search(
-                cr, uid,
-                [('website_published', '=', True),
-                 ('rating', '>', 0),
-                 ('public_categ_ids', 'child_of', int(category.id or 0))],
-                order='rating DESC',
-                limit=3)
-            newest_ids = product_obj.search(
-                cr, uid,
-                [('website_published', '=', True),
-                 ('public_categ_ids', 'child_of', int(category.id or 0))],
-                order='create_date DESC',
-                limit=3)
-            popular = product_obj.browse(cr, uid, popular_ids, context=context)
-            newest = product_obj.browse(cr, uid, newest_ids, context=context)
+            popular = category_obj._get_product_sorted(cr, uid,
+                                                       int(category.id or 0),
+                                                       'rating DESC', 3)
+            newest = category_obj._get_product_sorted(cr, uid,
+                                                      int(category.id or 0),
+                                                      'create_date DESC', 3)
             res.qcontext['populars'] = popular
             res.qcontext['newest'] = newest
             res.qcontext['products'] = ordered_products
@@ -74,48 +71,58 @@ class WebsiteSale(website_sale):
             res.qcontext['products'] = []
             res.qcontext['pager']['page_count'] = 0
         else:
-            keys = {
-                '0': filtered_products,
-                'name': filtered_products.sorted(key=lambda r: r.name),
-                'pasc': filtered_products.sorted(key=lambda r: r.lst_price),
-                'pdesc': filtered_products.sorted(key=lambda r: r.lst_price,
-                                                  reverse=True),
-                'hottest':
-                    filtered_products.sorted(key=lambda r: r.create_date),
-                'rating': filtered_products.sorted(key=lambda r: r.rating),
-                'popularity': filtered_products.sorted(key=lambda r: r.views)}
-            if post.get('product_sorter', '0') != '0':
-                sortby = post['product_sorter']
-                res.qcontext['sortby'] = sortby
-                ordered_products = keys.get(sortby)
-            elif request.httprequest.cookies.get('default_sort', 'False') != 'False':  # noqa
-                sortby = request.httprequest.cookies.get('default_sort')
-                ordered_products = keys.get(sortby)
-            elif request.httprequest.cookies.get('default_sort') == 'False':
-                sortby = request.website.default_sort
-                ordered_products = keys.get(sortby)
-            else:
-                ordered_products = filtered_products
+            default_cookie = request.httprequest.cookies.get('default_sort',
+                                                             'False')
+
+            sortby = (post.get('product_sorter', '0') != '0') and \
+                post['product_sorter'] or \
+                (default_cookie != 'False') and \
+                default_cookie or \
+                (default_cookie == 'False') and \
+                request.website.default_sort or 'None'
+
+            values = {
+                'name': 'name',
+                'pasc': 'lst_price',
+                'pdesc': 'lst_price',
+                'hottest': 'create_date',
+                'rating': 'rating',
+                'popularity': 'views'}
+
+            ordered = values.get(sortby, False) and \
+                filtered_products.\
+                sorted(key=lambda a: sortby == 'name' and
+                       getattr(a, values[sortby]).upper() or
+                       getattr(a, values[sortby]),
+                       reverse=('pdesc' == sortby)) or \
+                filtered_products
+
+            ordered_products = ordered
+
+            post.get('product_sorter', '0') != '0' and \
+                res.qcontext.update({'sortby': sortby})
+
             res.qcontext['products'] = ordered_products
 
-        for arg in args.get('attrib', []):
-            attr_id = arg.split('-')
-            if int(attr_id[0]) not in attribute_ids:
-                res.qcontext['keep'] = QueryURL(
+        attribute_ids = attributes.ids
+        attribs = [i.split('-')[0] for i in args.get('attrib', [])]
+        (list(set(attribs) - set(attribute_ids)) or
+         brand_selected_ids) and \
+            res.qcontext.update({
+                'keep': QueryURL(
                     '/shop',
                     category=category and int(category),
-                    search=search)
-        brands = brand_obj.browse(cr, uid, brand_ids, context=context)
-
-        parent_category_ids = []
-        if category:
-            categs = category
-        else:
-            domain = [('parent_id', '=', False)]
-            categ_ids = category_obj.search(cr, uid, domain, context=context)
-            categs = category_obj.browse(cr, uid, categ_ids, context=context)
-
-        res.qcontext['parent_category_ids'] = parent_category_ids
+                    search=search,
+                    brand=brand_selected_ids and
+                    brand_selected_ids[0] or brand)})
+        category = (brand_selected_ids and not
+                    category) and pool['product.brand'].\
+            _get_categories_related(cr, uid, brand_selected_ids) or \
+            category
+        categs = category or \
+            category_obj._get_all_categories(cr, uid,
+                                             [('parent_id', '=', False)])
+        res.qcontext['parent_category_ids'] = []
         res.qcontext['brands'] = brands
         res.qcontext['categories'] = categs
         res.qcontext['price_ranges'] = ranges
@@ -123,63 +130,6 @@ class WebsiteSale(website_sale):
         res.qcontext['ranges_set'] = ranges_selected_ids
         res.qcontext['unknown_set'] = unknown_set
         return res
-
-    def _normalize_category(self, category):
-        """This method returns a condition value usable on tuples, because
-        sometimes category can come from different places, sometimes it
-        can be an Odoo object and some others an int or a unicode.
-        """
-        if isinstance(category, int) or isinstance(category, unicode):
-            cond = int(category)
-        else:
-            cond = category.id
-        return cond
-
-    def _get_category_brands(self, category):
-        cr, uid, context, pool = (request.cr,
-                                  request.uid,
-                                  request.context,
-                                  request.registry)
-        prod_ids = []
-        brand_ids = []
-        product_obj = pool['product.template']
-        if category:
-            cond = self._normalize_category(category)
-            prod_ids = product_obj.search(cr, uid,
-                                          [('public_categ_ids', '=', cond)],
-                                          context=context)
-            for prod in product_obj.browse(cr, uid, prod_ids, context=context):
-                if prod.product_brand_id.id not in brand_ids and prod.product_brand_id.id:  # noqa
-                    brand_ids.append(prod.product_brand_id.id)
-        return brand_ids
-
-    def _get_used_attrs(self, category):
-        """This method retrieves all ids of the category selected on the
-        website.
-        """
-        cr, uid, context, pool = (request.cr,
-                                  request.uid,
-                                  request.context,
-                                  request.registry)
-        attribute_ids = []
-        prod_ids = []
-        attrs_unknown = {}
-        product_obj = pool['product.template']
-        if category:
-            cond = self._normalize_category(category)
-            prod_ids = product_obj.search(
-                cr,
-                uid,
-                [('public_categ_ids', '=', cond)], context=context)
-            for product in product_obj.browse(cr, uid, prod_ids,
-                                              context=context):
-                for line in product.attribute_line_ids:
-                    if line.attribute_id.id not in attribute_ids:
-                        attribute_ids.append(line.attribute_id.id)
-                    if not line.value_ids and line.attribute_id.id in \
-                            attribute_ids:
-                        attrs_unknown[line.attribute_id.id] = True
-        return attribute_ids, attrs_unknown
 
     @http.route(['/shop/product/<model("product.template"):product>'],
                 type='http', auth="public", website=True)

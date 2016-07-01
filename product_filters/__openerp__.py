@@ -1,6 +1,6 @@
 # coding: utf-8
 {
-    "name": "Website Product Filters",
+    "name": "Product Filters",
     "version": "8.0.0.1.0",
     "author": "Vauxoo",
     "category": "Website",
@@ -10,19 +10,12 @@
         "website_product_brand",
         "website_rate_product",
         "website_sale_options",
-        "product_filters",
     ],
     "demo": [
-        'demo/filters_demo_data.xml',
     ],
     "data": [
-        'data/price_ranges_data.xml',
-        'data/website_settings_data.xml',
-        'views/product_price_ranges_view.xml',
-        'views/assets.xml',
-        'views/templates.xml',
-        'views/res_config.xml',
-        'data/filters_data.yml',
+        'security/price_ranges_security.xml',
+        'security/ir.model.access.csv',
     ],
     "test": [],
     "qweb": [

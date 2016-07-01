@@ -41,6 +41,11 @@ class Website(models.Model):
     def sale_product_domain(self):
         rg_domain = []
         unknown_domain = []
+        brand_domain = []
+        if request.params.get('brand', False):
+            brand_arg = request.httprequest.args.getlist('brand')
+            brand_list = [int(v) for v in brand_arg if v]
+            brand_domain.append(('product_brand_id', 'in', brand_list))
         if request.params.get('range', False):
             ranges_obj = self.env['product.price.ranges']
             ranges_list = request.httprequest.args.getlist('range')
@@ -53,13 +58,12 @@ class Website(models.Model):
             line_obj = self.env['product.attribute.line']
             unknown_list = request.httprequest.args.getlist('unknown')
             values = [map(int, v.split("-")) for v in unknown_list if v]
-            if values:
-                ids = []
-                for value in values:
-                    if value[0] not in ids:
+            ids = []
+            for value in values:
+                if value[0] not in ids:
                         ids.append(value[0])
             line_ids = line_obj.search([('attribute_id', 'in', ids),
                                         ('value_ids', '=', False)])
             unknown_domain.append(('attribute_line_ids', 'in', line_ids._ids))
         domain = super(Website, self).sale_product_domain()
-        return domain + rg_domain + unknown_domain
+        return domain + rg_domain + unknown_domain + brand_domain
