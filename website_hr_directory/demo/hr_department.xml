@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="website_hr_directory_department_1" model="hr.department">
+            <field name="name">Administración</field>
+            <field name="website_published">0</field>
+        </record>
+        <record id="website_hr_directory_department_2" model="hr.department">
+            <field name="name">Ventas Corporativo</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_3" model="hr.department">
+            <field name="name">Bodega</field>
+            <field name="website_published">0</field>
+        </record>
+        <record id="website_hr_directory_department_4" model="hr.department">
+            <field name="name">Compras</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_5" model="hr.department">
+            <field name="name">Soporte Técnico</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_6" model="hr.department">
+            <field name="name">Limpieza</field>
+            <field name="website_published">0</field>
+        </record>
+        <record id="website_hr_directory_department_7" model="hr.department">
+            <field name="name">Mercadeo</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_8" model="hr.department">
+            <field name="name">Contabilidad</field>
+            <field name="website_published">0</field>
+        </record>
+        <record id="website_hr_directory_department_9" model="hr.department">
+            <field name="name">Call Center</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_10" model="hr.department">
+            <field name="name">Ventas</field>
+            <field name="website_published">1</field>
+        </record>
+        <record id="website_hr_directory_department_11" model="hr.department">
+            <field name="name">Cobros</field>
+            <field name="website_published">1</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="website_hr_directory_location_1" model="hr.work.location">
+            <field name="name">Colima</field>
+        </record>
+        <record id="website_hr_directory_location_2" model="hr.work.location">
+            <field name="name">Los Angeles</field>
+        </record>
+        <record id="website_hr_directory_location_3" model="hr.work.location">
+            <field name="name">León</field>
+        </record>
+        <record id="website_hr_directory_location_4" model="hr.work.location">
+            <field name="name">Caracas</field>
+        </record>
+    </data>
+</openerp>

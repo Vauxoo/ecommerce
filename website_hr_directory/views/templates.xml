@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="directory_footer_link" inherit_id="website.footer_default">
+      <xpath expr="//li/a[@href='/page/website.contactus']" position="after">
+        <li>
+          <a href="/directory">Directory</a>
+        </li>
+      </xpath>
+    </template>
+    <template id="employees_item" name="Employees item">
+      <div class="text-center" itemscope="itemscope" itemtype="http://schema.org/Emplyee">
+        <div class="employee_image">
+          <img class="img img-responsive img-centered" t-att-src="website.image_url(employee, 'image_medium')"/>
+        </div>
+        <section>
+          <h5>
+            <strong t-field="employee.display_name"/>
+          </h5>
+          <div>
+            <i t-if="employee.job_id"/>
+            <span t-field="employee.job_id"/>
+          </div>
+          <div>
+            <i class="fa fa-mobile fa-fw" t-if="employee.mobile_phone"/>
+            <span class="text-info oe_subdescription" t-field="employee.mobile_phone"/>
+          </div>
+          <div>
+            <i class="fa fa-phone fa-fw" t-if="employee.work_phone"/>
+            <span class="text-info oe_subdescription" t-field="employee.work_phone"/>
+          </div>
+          <div>
+            <i class="fa fa-envelope fa-fw" t-if="employee.work_email"/>
+            <span class="text-info oe_subdescription" t-field="employee.work_email"/>
+          </div>
+          <div>
+            <i class="fa fa-info fa-fw" t-if="employee.public_info"/>
+            <span class="text-info oe_subdescription" t-field="employee.public_info"/>
+          </div>
+        </section>
+      </div>
+    </template>
+    <template id="directory" name="Directory">
+      <t t-call="website.layout">
+        <div id="wrap">
+          <div class="oe_structure"/>
+          <div class="container">
+            <h2>Our Directory</h2>
+            <div class="row" id="directory_div">
+              <div class="col-sm-3">
+                <ul class="nav nav-tabs nav-pills nav-stacked well" id="nav-tabs-wrapper">
+                  <t t-set="count" t-value="0"/>
+                  <t t-as="dept" t-foreach="departments">
+                    <li t-attf-class="#{'active' if count == 0 else ''}">
+                      <a data-toggle="tab" t-att-href="'#vtab' + str(dept.id)">
+                        <t t-esc="dept.name"/>
+                      </a>
+                    </li>
+                    <t t-set="count" t-value="count+1"/>
+                  </t>
+                </ul>
+              </div>
+              <div class="col-sm-9 text-center">
+                <div class="tab-content">
+                  <t t-set="count" t-value="0"/>
+                  <t t-as="dept" t-foreach="departments">
+                    <div role="tabpanel" t-att-id="'vtab' + str(dept.id)" t-attf-class="#{'tab-pane fade in active' if count == 0 else 'tab-pane fade in'}">
+                      <!-- <h3 t-att-class="'mt0'" t-field="dept.name"/> -->
+                      <t t-set="employees" t-value="request.env['hr.employee'].search([('department_id', '=', dept.id),('website_published', '=', True)], order='work_location_id DESC')"/>
+                      <t t-set="setted_loc" t-value="0"/>
+                      <div class="row">
+                        <t t-as="employee" t-foreach="employees">
+                          <t t-if="int(employee.work_location_id.id) != int(setted_loc)">
+                            <div class="col-md-12">
+                              <h3 class="mt0" t-esc="dept.name + ' ' + employee.work_location_id.name"/>
+                            </div>
+                          </t>
+                          <div class="col-sm-3 col-xs-12 col-md-3 mt16 mb16 col-centered">
+                            <t t-call="website_hr_directory.employees_item"/>
+                            <t t-set="setted_loc" t-value="employee.work_location_id.id"/>
+                          </div>
+                        </t>
+                      </div>
+                    </div>
+                    <t t-set="count" t-value="count+1"/>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="oe_structure"/>
+        </div>
+      </t>
+    </template>
+  </data>
+</openerp>

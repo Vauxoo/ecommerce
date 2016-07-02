@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="website_hr_directory_employee_53" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Aaron</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-17-04</field>
+            <field name="work_phone">260-7959 Ext. 242</field>
+            <field name="work_email">aaron.caballero@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_1" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Alvaro</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-17-02</field>
+            <field name="work_phone">260-7959 Ext. 244</field>
+            <field name="work_email">alvaro.alvarez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_14" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Ana</field>
+            <field name="department_id" ref="website_hr_directory_department_2"/>
+            <field name="mobile_phone">312-107-17-01</field>
+            <field name="work_phone">260-7959 Ext. 245</field>
+            <field name="work_email">ana.perez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_2"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_17" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Anyury</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1700</field>
+            <field name="work_phone">260-7959 Ext. 246</field>
+            <field name="work_email">anyury.martinez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_13"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_32" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Arturo</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1701</field>
+            <field name="work_phone">260-7959 Ext. 247</field>
+            <field name="work_email">arturo.alonso@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_20" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Baronny</field>
+            <field name="department_id" ref="website_hr_directory_department_2"/>
+            <field name="mobile_phone">312-107-1702</field>
+            <field name="work_phone">260-7959 Ext. 248</field>
+            <field name="work_email">baronny.pandales@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_2"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_49" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Carlos</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1703</field>
+            <field name="work_phone">260-7959 Ext. 249</field>
+            <field name="work_email">carlos.canizalez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_6" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Carlos</field>
+            <field name="department_id" ref="website_hr_directory_department_4"/>
+            <field name="mobile_phone">312-107-1704</field>
+            <field name="work_phone">260-7959 Ext. 250</field>
+            <field name="work_email">carlos.vitola@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_4"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_62" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Christopher</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1705</field>
+            <field name="work_phone">260-7959 Ext. 251</field>
+            <field name="work_email">christopher.lopez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_34" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Christopher</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1706</field>
+            <field name="work_phone">260-7959 Ext. 252</field>
+            <field name="work_email">christopher.melendez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_35" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Daniel</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1707</field>
+            <field name="work_phone">260-7959 Ext. 253</field>
+            <field name="work_email">daniel.rojas@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_57" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">David</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1708</field>
+            <field name="work_phone">260-7959 Ext. 254</field>
+            <field name="work_email">david.mendieta@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_37" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">David</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1709</field>
+            <field name="work_phone">260-7959 Ext. 255</field>
+            <field name="work_email">david.vargas@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_24" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">David</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1710</field>
+            <field name="work_phone">260-7959 Ext. 256</field>
+            <field name="work_email">david.rujano@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_10" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Daysi</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1711</field>
+            <field name="work_phone">260-7959 Ext. 257</field>
+            <field name="work_email">daysi.santos@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_8"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_66" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Dennis</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1712</field>
+            <field name="work_phone">260-7959 Ext. 258</field>
+            <field name="work_email">dennis.garcia@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_23"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_29" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Eduardo</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1713</field>
+            <field name="work_phone">260-7959 Ext. 259</field>
+            <field name="work_email">eduardo.sanchez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_3" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Elizabeth</field>
+            <field name="department_id" ref="website_hr_directory_department_2"/>
+            <field name="mobile_phone">312-107-1714</field>
+            <field name="work_phone">260-7959 Ext. 260</field>
+            <field name="work_email">elizabeth.jimenez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_2"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_59" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Eric</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1715</field>
+            <field name="work_phone">260-7959 Ext. 261</field>
+            <field name="work_email">eric.samaniego@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_22"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_5" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Erick</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1716</field>
+            <field name="work_phone">260-7959 Ext. 262</field>
+            <field name="work_email">erick.cruz@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_12" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Evelin</field>
+            <field name="department_id" ref="website_hr_directory_department_7"/>
+            <field name="mobile_phone">312-107-1717</field>
+            <field name="work_phone">260-7959 Ext. 263</field>
+            <field name="work_email">evelin.quintanar@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_10"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_45" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Felix</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1718</field>
+            <field name="work_phone">260-7959 Ext. 264</field>
+            <field name="work_email">felix.hernandez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_4" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Francisco</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1719</field>
+            <field name="work_phone">260-7959 Ext. 265</field>
+            <field name="work_email">francisco.mojica@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_44" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Francisco</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1720</field>
+            <field name="work_phone">260-7959 Ext. 266</field>
+            <field name="work_email">francisco.dominguez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_38" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Franklin</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1721</field>
+            <field name="work_phone">260-7959 Ext. 267</field>
+            <field name="work_email">franklin.figueroa@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_36" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Freddy</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1722</field>
+            <field name="work_phone">260-7959 Ext. 268</field>
+            <field name="work_email">freddy.sosa@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_7" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Friedemann</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1723</field>
+            <field name="work_phone">260-7959 Ext. 269</field>
+            <field name="work_email">fe@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_5"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_63" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Humberto</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1724</field>
+            <field name="work_phone">260-7959 Ext. 270</field>
+            <field name="work_email">humberto.vasquez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_51" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Ismenia</field>
+            <field name="department_id" ref="website_hr_directory_department_11"/>
+            <field name="mobile_phone">312-107-1725</field>
+            <field name="work_phone">260-7959 Ext. 271</field>
+            <field name="work_email">ismenia.santos@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_20"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_41" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Iván</field>
+            <field name="department_id" ref="website_hr_directory_department_9"/>
+            <field name="mobile_phone">312-107-1726</field>
+            <field name="work_phone">260-7959 Ext. 272</field>
+            <field name="work_email">ivan.parque@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_60" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Jean</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1727</field>
+            <field name="work_phone">260-7959 Ext. 273</field>
+            <field name="work_email">jean-carlos.navarro@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_40" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Jessica</field>
+            <field name="department_id" ref="website_hr_directory_department_11"/>
+            <field name="mobile_phone">312-107-1728</field>
+            <field name="work_phone">260-7959 Ext. 274</field>
+            <field name="work_email">jessica.valencia@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_20"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_25" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Joannys</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1729</field>
+            <field name="work_phone">260-7959 Ext. 275</field>
+            <field name="work_email">joanny.contreras@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_13"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_61" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Joel</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1730</field>
+            <field name="work_phone">260-7959 Ext. 276</field>
+            <field name="work_email">joel.espinosa@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_18" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Jorge</field>
+            <field name="department_id" ref="website_hr_directory_department_4"/>
+            <field name="mobile_phone">312-107-1731</field>
+            <field name="work_phone">260-7959 Ext. 277</field>
+            <field name="work_email">jorge.nunez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_14"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_52" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Jose</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1732</field>
+            <field name="work_phone">260-7959 Ext. 278</field>
+            <field name="work_email">jose.padilla@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_11" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Jose</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1733</field>
+            <field name="work_phone">260-7959 Ext. 279</field>
+            <field name="work_email">jose.ramirez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_9"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_54" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">José</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1734</field>
+            <field name="work_phone">260-7959 Ext. 280</field>
+            <field name="work_email">jose.magallon@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_56" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Josue</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1735</field>
+            <field name="work_phone">260-7959 Ext. 281</field>
+            <field name="work_email">josue.jordan@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_27" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Karen</field>
+            <field name="department_id" ref="website_hr_directory_department_11"/>
+            <field name="mobile_phone">312-107-1736</field>
+            <field name="work_phone">260-7959 Ext. 282</field>
+            <field name="work_email">karen.rodriguez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_17"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_50" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Kevin</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1737</field>
+            <field name="work_phone">260-7959 Ext. 283</field>
+            <field name="work_email">kevin.alvarez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_65" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Kilson</field>
+            <field name="department_id" ref="website_hr_directory_department_8"/>
+            <field name="mobile_phone">312-107-1738</field>
+            <field name="work_phone">260-7959 Ext. 284</field>
+            <field name="work_email">kilson.urdaneta@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_11"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_26" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Lisseth</field>
+            <field name="department_id" ref="website_hr_directory_department_10"/>
+            <field name="mobile_phone">312-107-1739</field>
+            <field name="work_phone">260-7959 Ext. 285</field>
+            <field name="work_email">lisseth.deleon@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_15" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Lucille</field>
+            <field name="department_id" ref="website_hr_directory_department_8"/>
+            <field name="mobile_phone">312-107-1740</field>
+            <field name="work_phone">260-7959 Ext. 286</field>
+            <field name="work_email">lucille.good@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_11"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_31" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Luis</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1741</field>
+            <field name="work_phone">260-7959 Ext. 287</field>
+            <field name="work_email">luis.cisneros@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_19" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Luis</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1742</field>
+            <field name="work_phone">260-7959 Ext. 288</field>
+            <field name="work_email">luis.medina@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_6"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_55" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Luis</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1743</field>
+            <field name="work_phone">260-7959 Ext. 289</field>
+            <field name="work_email">luis.hernandez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_21"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_9" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Maria</field>
+            <field name="department_id" ref="website_hr_directory_department_6"/>
+            <field name="mobile_phone">312-107-1744</field>
+            <field name="work_phone">260-7959 Ext. 290</field>
+            <field name="work_email">maria.alvarado@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_7"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_16" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Mario</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1745</field>
+            <field name="work_phone">260-7959 Ext. 291</field>
+            <field name="work_email">mario.klemm@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_42" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Marisenia</field>
+            <field name="department_id" ref="website_hr_directory_department_11"/>
+            <field name="mobile_phone">312-107-1746</field>
+            <field name="work_phone">260-7959 Ext. 292</field>
+            <field name="work_email">marisenia.cruz@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_20"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_22" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Mauricio</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1747</field>
+            <field name="work_phone">260-7959 Ext. 293</field>
+            <field name="work_email">mauricio.duque@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_16"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_30" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Max</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1748</field>
+            <field name="work_phone">260-7959 Ext. 294</field>
+            <field name="work_email">max.mena@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_13" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Mike</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1749</field>
+            <field name="work_phone">260-7959 Ext. 295</field>
+            <field name="work_email">mike.argumedez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_48" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Moises</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1750</field>
+            <field name="work_phone">260-7959 Ext. 296</field>
+            <field name="work_email">moises.bethancourt@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_12"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_8" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Narciso</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1751</field>
+            <field name="work_phone">260-7959 Ext. 297</field>
+            <field name="work_email">narciso.villamil@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_6"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_58" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Olivia</field>
+            <field name="department_id" ref="website_hr_directory_department_6"/>
+            <field name="mobile_phone">312-107-1752</field>
+            <field name="work_phone">260-7959 Ext. 298</field>
+            <field name="work_email">olivia.alabarca@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_7"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_28" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Omar</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1753</field>
+            <field name="work_phone">260-7959 Ext. 299</field>
+            <field name="work_email">omar.paolini@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_18"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_47" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Oscar</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1754</field>
+            <field name="work_phone">260-7959 Ext. 300</field>
+            <field name="work_email">oscar.martinez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_23" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Oscar</field>
+            <field name="department_id" ref="website_hr_directory_department_9"/>
+            <field name="mobile_phone">312-107-1755</field>
+            <field name="work_phone">260-7959 Ext. 301</field>
+            <field name="work_email">oscar.rodriguez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_39" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Pedro</field>
+            <field name="department_id" ref="website_hr_directory_department_8"/>
+            <field name="mobile_phone">312-107-1756</field>
+            <field name="work_phone">260-7959 Ext. 302</field>
+            <field name="work_email">pedro.arrocha@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_19"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_43" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Rigoberto</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1757</field>
+            <field name="work_phone">260-7959 Ext. 303</field>
+            <field name="work_email">rigoberto.morales@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_33" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Roderick</field>
+            <field name="department_id" ref="website_hr_directory_department_3"/>
+            <field name="mobile_phone">312-107-1758</field>
+            <field name="work_phone">260-7959 Ext. 304</field>
+            <field name="work_email">roderick.gonzalez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_3"/>
+            <field name="job_id" ref="website_hr_directory_job_3"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_64" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Ruben</field>
+            <field name="department_id" ref="website_hr_directory_department_5"/>
+            <field name="mobile_phone">312-107-1759</field>
+            <field name="work_phone">260-7959 Ext. 305</field>
+            <field name="work_email">ruben.alvarez@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_1"/>
+            <field name="job_id" ref="website_hr_directory_job_9"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_21" model="hr.employee">
+            <field name="website_published" eval="True"/>
+            <field name="name">Tamara</field>
+            <field name="department_id" ref="website_hr_directory_department_9"/>
+            <field name="mobile_phone">312-107-1760</field>
+            <field name="work_phone">260-7959 Ext. 306</field>
+            <field name="work_email">tamara.miranda@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_4"/>
+            <field name="job_id" ref="website_hr_directory_job_15"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+        <record id="website_hr_directory_employee_2" model="hr.employee">
+            <field name="website_published" eval="False"/>
+            <field name="name">Yokasta</field>
+            <field name="department_id" ref="website_hr_directory_department_1"/>
+            <field name="mobile_phone">312-107-1761</field>
+            <field name="work_phone">260-7959 Ext. 307</field>
+            <field name="work_email">yk@yoytec.com</field>
+            <field name="work_location_id" ref="website_hr_directory_location_2"/>
+            <field name="job_id" ref="website_hr_directory_job_1"/>
+            <field name="image" type="base64" file="website_hr_directory/static/src/img/user.png"/>
+        </record>
+    </data>
+</openerp>
