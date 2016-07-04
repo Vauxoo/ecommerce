@@ -10,7 +10,8 @@
                 $('.upper').after(' <i class="fa fa-spinner fa-spin"></i>');
                }
             }).done(function( data ){
-              $.each(JSON.parse(data), function(i, obj) {
+              var parsed = JSON.parse(data) || [];
+              $.each(parsed, function(i, obj) {
                 $('.upper'+obj.id).next().replaceWith('<span class="black-text">('+obj.qty+')</span>');
               });
             $("span.black-text:contains(0)").parents('li.range').remove();

@@ -61,7 +61,7 @@ class Website(models.Model):
             ids = []
             for value in values:
                 if value[0] not in ids:
-                        ids.append(value[0])
+                    ids.append(value[0])
             line_ids = line_obj.search([('attribute_id', 'in', ids),
                                         ('value_ids', '=', False)])
             unknown_domain.append(('attribute_line_ids', 'in', line_ids._ids))

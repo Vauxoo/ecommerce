@@ -1,1 +1,2 @@
 addons-vauxoo https://github.com/Vauxoo/addons-vauxoo.git
+product-attribute https://github.com/Vauxoo/product-attribute.git

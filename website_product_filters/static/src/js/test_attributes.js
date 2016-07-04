@@ -24,11 +24,10 @@
             );
         }
         if (steps[k].title === "open customize menu bis") {
-            steps.splice(k, 1, {
-                title: 'Open Customize Menu',
-                element: '#customize-menu-button',
-            }
-            );
+            steps.splice(k, 1);
+        }
+        if (steps[k].title === "click on 'Product Attribute's Filters'") {
+            steps.splice(k, 1);
         }
         if (steps[k].title === "remove 'Product Attribute's Filters'") {
             steps.splice(k, 1);

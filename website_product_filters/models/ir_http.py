@@ -30,15 +30,26 @@ class IrHttp(models.AbstractModel):
     _inherit = 'ir.http'
 
     def _dispatch(self):
-        cookie_sort = request.httprequest.cookies.get('default_sort', False)
+        """Inherited in order to set a cookie in order to be able to go out
+        of the page and keep the product sort while the session is active.
+        """
         resp = super(IrHttp, self)._dispatch()
-        if request.registry:
-            current_website = request.registry['website'].get_current_website(
-                request.cr, request.uid, context=request.context)
-            post_sort = request.params.get('product_sorter', False)
-            if not cookie_sort and request.website_enabled and not post_sort:
-                resp.set_cookie('default_sort',
-                                bytes(current_website.default_sort))
-            elif post_sort:
-                resp.set_cookie('default_sort', post_sort)
+        if not request.registry:
+            return resp
+        # get the cookie from the website
+        cookie_sort = request.httprequest.cookies.get('default_sort', '')
+        # retrieve the website object
+        current_website = request.registry['website'].get_current_website(
+            request.cr, request.uid, context=request.context)
+        # get the sort from the request made by te user or the cookie if
+        # not found
+        website_sort = request.params.get('product_sorter', cookie_sort)
+        # get a boolean if we should sort by the default sort configured
+        # in the website settings.
+        backend_sort = bool(
+            not cookie_sort and not website_sort and request.website_enabled)
+        resp.set_cookie(
+            'default_sort',
+            backend_sort and bytes(current_website.default_sort) or
+            website_sort)
         return resp
