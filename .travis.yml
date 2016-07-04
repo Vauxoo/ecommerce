@@ -1,0 +1,43 @@
+language: python
+
+sudo: false
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
+
+addons:
+  apt:
+    packages:
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-yaml
+      - poppler-utils
+      - antiword
+      - python-xlrd
+
+python:
+  - "2.7"
+
+env:
+  global:
+  - LINT_CHECK=0 TESTS="0" VERSION="8.0" ODOO_REPO="vauxoo/odoo"
+  matrix:
+  - LINT_CHECK=1
+  - TESTS="1" PHANTOMJS_TESTS="0"
+  - TESTS="1" PHANTOMJS_TESTS="1"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+  - git clone --single-branch --depth=1 https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - travis_install_nightly
+
+script:
+  - travis_run_tests
+
+after_success:
+  - travis_after_tests_success
