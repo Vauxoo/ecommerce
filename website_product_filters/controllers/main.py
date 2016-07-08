@@ -99,7 +99,8 @@ class WebsiteSale(website_sale):
 # pylint: disable=expression-not-assigned
             post.get('product_sorter', '0') != '0' and res.qcontext.update({'sortby': sortby})  # noqa
 
-            res.qcontext['products'] = ordered_products
+            res.qcontext['products'] = ordered_products.filtered(
+                'website_published')
 
         attribute_ids = attributes.ids
         attribs = [i.split('-')[0] for i in args.get('attrib', [])]
