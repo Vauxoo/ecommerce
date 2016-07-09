@@ -71,7 +71,7 @@
                                       </t>
                                       <t t-set="counter" t-value="counter+1"/>
                                     </t>
-                                    <t t-if="attrs_unknown.get(a.id)">
+                                    <t t-if="a.id in attrs_unknown">
                                         <li>
                                             <label style="margin: 0 5px;">
                                               <input type="checkbox" name="unknown" t-att-value="'%s-0' % (a.id)" t-att-checked="'checked' if a.id in unknown_set else ''"/>
@@ -107,7 +107,7 @@
                       </t>
                   </ul>
             </t>
-            <t t-if="price_ranges">
+            <t t-if="price_ranges and products">
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>Price Range</strong></div>
                     <div class="panel-body range-list">

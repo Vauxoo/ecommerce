@@ -10,7 +10,8 @@
             $('span.att-value').after(' <i class="fa fa-spinner fa-spin"></i>');
           }
         }).done(function( data ) {
-              $.each(JSON.parse(data), function(i, obj) {
+              var parsed = JSON.parse(data) || [];
+              $.each(parsed, function(i, obj) {
                 $('span.att-value#'+obj.id).next().replaceWith('<span class="black-text">('+obj.qty+')</span>');
                 $('span.att-value').next('.fa-spinner').replaceWith(' <span class="black-text">(0)</span>');
               });
@@ -21,8 +22,6 @@
                 $div_list.find('a.show-more').remove();
               }
             });
-
-          });
+        });
     });
-
 }());

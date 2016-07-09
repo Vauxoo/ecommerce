@@ -63,65 +63,77 @@ class ProductCategory(models.Model):
         "product_public_category_id",
         "product_template_id", readonly=True)
     total_tree_products = fields.Integer("Total Subcategory Prods",
-                                         compute="_get_product_count",
+                                         compute="_compute_product_count",
                                          store=True)
-    has_products_ok = fields.Boolean(compute="_get_product_count",
+    has_products_ok = fields.Boolean(compute="_compute_product_count",
                                      store=True, readonly=True)
 
     @api.model
     def _get_async_ranges(self, category):
+        """Get quantity of products per price range based on a given category.
+
+        @param category: The category id on which the quantities will be
+        searched for.
+        @param: int
+
+        @return: List of dictionaries where the key is the id of the range
+        and the value is the quantity of products found in that price range.
+        @rtype: dict
+
+        """
         prod_obj = self.env['product.template']
         ranges_obj = self.env['product.price.ranges'].search([])
         count_dict = {}
-        prod_ids = []
-        if category:
-            prod_ids = prod_obj.search(
-                [('public_categ_ids', 'child_of', int(category)),
-                 ('website_published', '=', True)])
-        if prod_ids:
-            for prod in prod_ids:
-                for ran in ranges_obj:
-                    if ran.upper > prod.list_price > ran.lower:
-                        if ran.id in count_dict.keys():
-                            count_dict[ran.id] += 1
-                        else:
-                            count_dict[ran.id] = 1
-                    if ran.id not in count_dict.keys():
-                        count_dict[ran.id] = 0
-            to_jsonfy = [{'id': k, 'qty': count_dict[k]} for k in count_dict]
-            return to_jsonfy
+        prod_ids = prod_obj.search(
+            [('public_categ_ids', 'child_of', category),
+             ('website_published', '=', True)])
+        for prod in prod_ids:
+            for ran in ranges_obj:
+                count_dict.setdefault(ran.id, 0)
+                if ran.upper > prod.list_price > ran.lower:
+                    count_dict[ran.id] += 1
+        to_jsonfy = [{'id': k, 'qty': count_dict[k]} for k in count_dict]
+        return to_jsonfy
 
     @api.model
     def _get_async_values(self, category):
+        """Get quantity of products per attribute value based on a given
+        category.
+
+        @param category: The category id on which the quantities will be
+        searched for.
+        @param: int
+
+        @return: List of dictionaries where the key is the id of the range
+        and the value is the quantity of products found in that price range.
+        @rtype: dict
+
+        """
         prod_obj = self.env['product.template']
         count_dict = {}
-        prod_ids = []
-        if category:
-            prod_ids = prod_obj.search(
-                [('public_categ_ids', 'child_of', int(category)),
-                 ('website_published', '=', True)])
-        if prod_ids:
-            for prod in prod_ids:
-                for line in prod.attribute_line_ids:
-                    for value in line.value_ids:
-                        if value.id in count_dict.keys():
-                            count_dict[value.id] += 1
-                        else:
-                            count_dict[value.id] = 1
-                        if value.id not in count_dict.keys():
-                            count_dict[value.id] = 0
-            to_jsonfy = [{'id': k, 'qty': count_dict[k]} for k in count_dict]
-            return to_jsonfy
+        prod_ids = prod_obj.search(
+            [('public_categ_ids', 'child_of', category),
+             ('website_published', '=', True)])
+        for prod in prod_ids:
+            for line in prod.attribute_line_ids:
+                for value in line.value_ids:
+                    count_dict.setdefault(value.id, 0)
+                    count_dict[value.id] += 1
+        to_jsonfy = [{'id': k, 'qty': count_dict[k]} for k in count_dict]
+        return to_jsonfy
 
     @api.depends("product_ids", "product_ids.website_published")
-    def _get_product_count(self):
+    def _compute_product_count(self):
+        """Gets the total of website_published products on the category tree
+        (all childs) and writes a boolean wether it has or not products.
+        """
         prod_obj = self.env["product.template"]
         for rec in self:
             prod_ids = prod_obj.search(
                 [('public_categ_ids', 'child_of', rec.id),
-                 ('website_published', '=', True)])
-            rec.total_tree_products = len(prod_ids)
-            rec.has_products_ok = True and len(prod_ids) > 0 or False
+                 ('website_published', '=', True)], count=True)
+            rec.total_tree_products = prod_ids
+            rec.has_products_ok = prod_ids > 0
 
     @api.multi
     def _get_attributes_related(self):
@@ -149,6 +161,7 @@ class ProductCategory(models.Model):
                          ''', (tuple(self.product_ids.ids or (0,)),))
         for i in self._cr.fetchall():
             attr_ids.append(i[0])
+# pylint: disable=expression-not-assigned
             None in i[1] and attr_ids2.append(i[0])
         return attr_ids, attr_ids2
 

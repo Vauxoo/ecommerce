@@ -17,7 +17,7 @@ class WebsiteAsync(http.Controller):
         cr, uid, pool = request.cr, request.uid, request.registry
         category_obj = pool.get('product.public.category')
         prods_per_attr = category_obj._get_async_values(
-            cr, uid, post.get('category'))
+            cr, uid, int(post.get('category', 0)))
         return request.make_response(json.dumps(prods_per_attr))
 
     @http.route(['/get_ranges'],
@@ -31,5 +31,5 @@ class WebsiteAsync(http.Controller):
         cr, uid, pool = request.cr, request.uid, request.registry
         category_obj = pool.get('product.public.category')
         response = category_obj._get_async_ranges(
-            cr, uid, post.get('category'))
+            cr, uid, int(post.get('category', 0)))
         return request.make_response(json.dumps(response))

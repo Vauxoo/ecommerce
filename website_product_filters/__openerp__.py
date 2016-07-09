@@ -7,18 +7,11 @@
     "website": "http://www.vauxoo.com/",
     "license": "AGPL-3",
     "depends": [
-        "website_product_brand",
-        "website_rate_product",
-        "website_sale_options",
         "product_filters",
     ],
     "demo": [
-        'demo/filters_demo_data.xml',
     ],
     "data": [
-        'data/price_ranges_data.xml',
-        'data/website_settings_data.xml',
-        'views/product_price_ranges_view.xml',
         'views/assets.xml',
         'views/templates.xml',
         'views/res_config.xml',

@@ -39,20 +39,18 @@ class WebsiteSale(website_sale):
         ranges_selected_ids = [int(v) for v in ranges_list if v]
         unknown_set = set([x[0] for x in unknown_values])
         ranges = ranges_obj._get_all_ranges(cr, uid, [])
-        attrs_unknown = {}
         categ_id = (isinstance(category, int) or
                     isinstance(category, (str, unicode))) and \
             int(category) or category and category.id or 0
         attributes_ids, att_unkn_ids = category_obj.\
             _get_attributes_related(cr, uid,
                                     categ_id, context)
-        attrs_unknown.fromkeys(att_unkn_ids, True)
         brands = category_obj.\
             _get_brands_related(cr, uid,
                                 categ_id, context)
         attributes = pool['product.attribute'].browse(cr, uid, attributes_ids)
         res.qcontext['attributes'] = attributes
-        res.qcontext['attrs_unknown'] = attrs_unknown
+        res.qcontext['attrs_unknown'] = att_unkn_ids
         filtered_products = res.qcontext['products']
         args = res.qcontext['keep'].args
         if category and category.child_id and not search:
@@ -94,27 +92,27 @@ class WebsiteSale(website_sale):
                 sorted(key=lambda a: sortby == 'name' and
                        getattr(a, values[sortby]).upper() or
                        getattr(a, values[sortby]),
-                       reverse=('pdesc' == sortby)) or \
+                       reverse=sortby == 'pdesc') or \
                 filtered_products
 
             ordered_products = ordered
-
-            post.get('product_sorter', '0') != '0' and \
-                res.qcontext.update({'sortby': sortby})
+# pylint: disable=expression-not-assigned
+            post.get('product_sorter', '0') != '0' and res.qcontext.update({'sortby': sortby})  # noqa
 
             res.qcontext['products'] = ordered_products
 
         attribute_ids = attributes.ids
         attribs = [i.split('-')[0] for i in args.get('attrib', [])]
-        (list(set(attribs) - set(attribute_ids)) or
-         brand_selected_ids) and \
-            res.qcontext.update({
-                'keep': QueryURL(
-                    '/shop',
-                    category=category and int(category),
-                    search=search,
-                    brand=brand_selected_ids and
-                    brand_selected_ids[0] or brand)})
+        keep = (list(set(attribs) - set(attribute_ids)) or
+                brand_selected_ids) and \
+            {
+            'keep': QueryURL(
+                '/shop',
+                category=category and int(category),
+                search=search,
+                brand=brand_selected_ids and
+                brand_selected_ids[0] or brand)} or {}
+        res.qcontext.update(keep)
         category = (brand_selected_ids and not
                     category) and pool['product.brand'].\
             _get_categories_related(cr, uid, brand_selected_ids) or \

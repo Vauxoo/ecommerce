@@ -59,13 +59,61 @@
                 element: '.js_attributes label.css_attribute_color input[value="2-3"]',
             },
             {
-                title: 'Test 32GB on iPad',
+                title: 'Click on Filter 32GB on iPad',
                 waitFor: '.sort_bar h4:contains(White)',
                 element: 'label:contains(32 GB) input',
             },
             {
                 title: 'Delete 32GB from checkbox list',
                 element: '.sort_bar h4:contains(32 GB) a.removable-badge',
+            },
+            {
+                title: 'Uncheck checkbox White Filter',
+                element: '.js_attributes label.css_attribute_color input[value="2-3"]',
+            },
+            {
+                title: 'Click on Filter 200 - 500 price range',
+                waitNot: '.sort_bar h4:contains(White) a.removable-badge',
+                element: 'label:contains(200) input',
+            },
+            {
+                title: 'Uncheck checkbox 200 - 500 price range',
+                waitNot: 'h5:contains(iPad Retina Display)',
+                element: 'label:contains(200) input',
+            },
+            {
+                title: 'Uncheck checkbox filter by 16GB',
+                waitFor: 'h5:contains(iPad Retina Display)',
+                element: 'label:contains(16 GB) input',
+            },
+            {
+                title: 'Uncheck checkbox filter by 32GB',
+                waitNot: '.sort_bar h4:contains(16 GB)',
+                element: 'label:contains(32 GB) input',
+            },
+            {
+                title: 'Click on Filter Brand Apple',
+                waitNot: '.sort_bar h4:contains(32 GB)',
+                element: 'label:contains(Apple)',
+            },
+            {
+                title: 'Uncheck checkbox Brand Apple',
+                waitNot: 'h5:contains(Google Nexus Tab)',
+                element: 'label:contains(Apple)',
+            },
+            {
+                title: 'Click on Filter Unknown Memory',
+                waitFor: 'h5:contains(Samsung Galaxy Tab), h5:contains(Google Nexus Tab)',
+                element: 'label:contains(Unknown) input',
+            },
+            {
+                title: 'Uncheck on Filter Unknown Memory',
+                waitNot: 'h5:contains(iPad Retina Display, iPhone 6s Plus)',
+                waitFor: '.sort_bar h4:contains(Unknown)',
+                element: 'label:contains(Unknown) input',
+            },
+            {
+                title: 'Finish Tour',
             },
         ],
     });

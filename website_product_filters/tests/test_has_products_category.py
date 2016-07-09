@@ -26,8 +26,7 @@ class TestCategoryHasProducts(TransactionCase):
         # Create a Product Variant
         product = self.product_obj.create(
             {'name': "Product Product devices",
-             'website_published': True}
-            )
+             'website_published': True})
 
         # Test No categories
         self.assertEqual(len(product.product_tmpl_id.public_categ_ids), 0)

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="product.Speakers" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/speakers.jpg"/>
+        </record>
+        <record id="product.Screen" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/screen.png"/>
+        </record>
+        <record id="product.Keyboard_Mouse" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/Keyboard_Mouse.jpeg"/>
+        </record>
+        <record id="product.devices" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/devices.jpg"/>
+        </record>
+        <record id="product.sub_computers" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/computers.jpg"/>
+        </record>
+        <record id="product.computers" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/computers.jpg"/>
+        </record>
+        <record id="product.Computer_all_in_one" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/aio.png"/>
+        </record>
+
+        <record id="brand_apple" model="product.brand">
+            <field name="name">Apple</field>
+        </record>
+        <record id="brand_google" model="product.brand">
+            <field name="name">Google</field>
+        </record>
+        <record id="brand_bose" model="product.brand">
+            <field name="name">Bose</field>
+        </record>
+
+        <!-- Demo data for rating on products -->
+        <record id="message_product_1" model="mail.message">
+            <field name="model">product.template</field>
+            <field name="rating">5</field>
+            <field name="res_id" ref="product.product_product_5b_product_template"/>
+        </record>
+        <record id="message_product_2" model="mail.message">
+            <field name="model">product.template</field>
+            <field name="rating">4</field>
+            <field name="res_id" ref="product.product_product_9_product_template"/>
+        </record>
+        <record id="message_product_3" model="mail.message">
+            <field name="model">product.template</field>
+            <field name="rating">3</field>
+            <field name="res_id" ref="product.product_product_7_product_template"/>
+        </record>
+        <record id="message_product_4" model="mail.message">
+            <field name="model">product.template</field>
+            <field name="rating">3</field>
+            <field name="res_id" ref="product.product_product_32_product_template"/>
+        </record>
+
+        <!-- Demo data to create attributes on products without values -->
+        <record id="product_attribute_memory_line_1" model="product.attribute.line">
+            <field name="product_tmpl_id" ref="product.product_product_3_product_template"/>
+            <field name="attribute_id" ref="product.product_attribute_1"/>
+        </record>
+        <record id="product_attribute_memory_line_2" model="product.attribute.line">
+            <field name="product_tmpl_id" ref="product.product_product_25_product_template"/>
+            <field name="attribute_id" ref="product.product_attribute_1"/>
+        </record>
+        <record id="product_attribute_memory_line_3" model="product.attribute.line">
+            <field name="product_tmpl_id" ref="product.product_product_29_product_template"/>
+            <field name="attribute_id" ref="product.product_attribute_1"/>
+            <field name="value_ids" eval="[(6,0,[ref('product.product_attribute_value_2')])]"/>
+        </record>
+        <record id="product.product_product_3_product_template" model="product.template">
+            <field name="name">Samsung Galaxy Tab</field>
+            <field name="website_published">1</field>
+            <field name="public_categ_ids" eval="[(6,0,[ref('product.Computer_all_in_one')])]"/>
+            <field name="image_medium" type="base64" file="product_filters/static/img/galaxy.png"/>
+            <field name="attribute_line_ids" eval="[(6,0,[ref('product_attribute_memory_line_1')])]"/>
+            <field name="product_brand_id" ref="brand_google"/>
+        </record>
+        <record id="product.product_product_25_product_template" model="product.template">
+            <field name="name">Google Nexus Tab</field>
+            <field name="website_published">1</field>
+            <field name="public_categ_ids" eval="[(6,0,[ref('product.Computer_all_in_one')])]"/>
+            <field name="image_medium" type="base64" file="product_filters/static/img/nexus.png"/>
+            <field name="attribute_line_ids" eval="[(6,0,[ref('product_attribute_memory_line_2')])]"/>
+            <field name="product_brand_id" ref="brand_google"/>
+        </record>
+        <record id="product.product_product_29_product_template" model="product.template">
+            <field name="name">iPhone 6s Plus</field>
+            <field name="website_published">1</field>
+            <field name="list_price">260</field>
+            <field name="public_categ_ids" eval="[(6,0,[ref('product.Computer_all_in_one')])]"/>
+            <field name="image_medium" type="base64" file="product_filters/static/img/iphone.png"/>
+            <field name="attribute_line_ids" eval="[(6,0,[ref('product_attribute_memory_line_3')])]"/>
+            <field name="product_brand_id" ref="brand_apple"/>
+        </record>
+        <record id="product.product_product_31_product_template" model="product.template">
+            <field name="website_published">1</field>
+            <field name="list_price">260</field>
+            <field name="public_categ_ids" eval="[(6,0,[ref('product.Speakers')])]"/>
+            <field name="product_brand_id" ref="brand_bose"/>
+        </record>
+        <record id="product.product_product_5b_product_template" model="product.template">
+            <field name="product_brand_id" ref="brand_bose"/>
+        </record>
+        <record id="product.product_product_4_product_template" model="product.template">
+            <field name="product_brand_id" ref="brand_apple"/>
+        </record>
+        <record id="product.product_product_6_product_template" model="product.template">
+            <field name="product_brand_id" ref="brand_apple"/>
+        </record>
+        <record id="product.product_product_7_product_template" model="product.template">
+            <field name="product_brand_id" ref="brand_apple"/>
+        </record>
+        <record id="product.product_product_9_product_template" model="product.template">
+            <field name="product_brand_id" ref="brand_apple"/>
+        </record>
+
+    </data>
+</openerp>
