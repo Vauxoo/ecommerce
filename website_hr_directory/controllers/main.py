@@ -14,3 +14,18 @@ class WebsiteHr(http.Controller):
             'departments': depts,
         }
         return request.website.render('website_hr_directory.directory', values)
+
+    @http.route(
+        ['/department/<int:department_id>'],
+        type='http',
+        auth='public',
+        website=True)
+    def employees(self, department_id, **post):
+        employees = request.env['hr.employee'].search(
+            [('department_id', '=', department_id),
+             ('website_published', '=', True)],
+            order='work_location_id DESC')
+        values = {
+            'employees': employees,
+        }
+        return request.website.render('website_hr_directory.employees', values)

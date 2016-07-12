@@ -11,6 +11,12 @@ class HrDepartment(models.Model):
     website_published = fields.Boolean(
         'Available in the website', copy=False, default=False)
     public_info = fields.Html('Public Info')
+    icon = fields.Char(
+        'Icon',
+        help="""Go to http://fontawesome.io/icons/ and search and click the
+        desired icon for the department, the selected icon will be shown in the
+        website, the text you need to enter here is the  part of 'fa-icon-name'
+        ie. for the suit case: 'fa-suitcase'""")
 
     @api.model
     def _get_departments(self):
