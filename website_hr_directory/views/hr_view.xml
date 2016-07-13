@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='parent_id']" position="after">
                     <field name="website_published" widget="website_button"/>
+                    <field name="icon"/>
                 </xpath>
             </field>
         </record>
@@ -19,6 +20,9 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="website_published" widget="website_button"/>
+                </xpath>
+                <xpath expr="//field[@name='work_location']" position="replace">
+                    <field name="work_location_id"/>
                 </xpath>
             </field>
         </record>

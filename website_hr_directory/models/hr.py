@@ -33,7 +33,8 @@ class HrEmployee(models.Model):
     website_published = fields.Boolean('Available in the website', copy=False,
                                        default=False)
     public_info = fields.Text('Public Info')
-    work_location_id = fields.Many2one('hr.work.location')
+    work_location_id = fields.Many2one('hr.work.location',
+                                       string="Work Location")
 
     @api.model
     def _publish_department(self):
