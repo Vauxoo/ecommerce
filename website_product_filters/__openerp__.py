@@ -16,6 +16,7 @@
         'views/templates.xml',
         'views/res_config.xml',
         'data/filters_data.yml',
+        'data/website_settings_data.xml',
     ],
     "test": [],
     "qweb": [

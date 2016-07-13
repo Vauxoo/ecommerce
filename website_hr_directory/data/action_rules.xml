@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="action_rule_publish_unpublish_dept" model="base.action.rule">
+            <field name="name">Publish or Unpublish a Department</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="sequence">1</field>
+            <field name="active">True</field>
+            <field name="kind">on_create_or_write</field>
+            <field name="server_action_ids" eval="[(6, 0, [ref('website_hr_directory.publish_unpublish_department')])]"/>
+        </record>
+    </data>
+</openerp>

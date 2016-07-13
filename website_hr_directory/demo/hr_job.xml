@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="website_hr_directory_job_1" model="hr.job">
+            <field name="name">Gerente General</field>
+        </record>
+        <record id="website_hr_directory_job_2" model="hr.job">
+            <field name="name">Agente de Ventas Corporativas</field>
+        </record>
+        <record id="website_hr_directory_job_3" model="hr.job">
+            <field name="name">Asistente de Bodega</field>
+        </record>
+        <record id="website_hr_directory_job_4" model="hr.job">
+            <field name="name">Gerente de Compras</field>
+        </record>
+        <record id="website_hr_directory_job_5" model="hr.job">
+            <field name="name">Gerente Administrativo</field>
+        </record>
+        <record id="website_hr_directory_job_6" model="hr.job">
+            <field name="name">Ensamblador de Equipo</field>
+        </record>
+        <record id="website_hr_directory_job_7" model="hr.job">
+            <field name="name">Ayudante General</field>
+        </record>
+        <record id="website_hr_directory_job_8" model="hr.job">
+            <field name="name">Gerente de Sucursal</field>
+        </record>
+        <record id="website_hr_directory_job_9" model="hr.job">
+            <field name="name">Técnico</field>
+        </record>
+        <record id="website_hr_directory_job_10" model="hr.job">
+            <field name="name">Diseñador Grafico</field>
+        </record>
+        <record id="website_hr_directory_job_11" model="hr.job">
+            <field name="name">Asistente de Contabilidad</field>
+        </record>
+        <record id="website_hr_directory_job_12" model="hr.job">
+            <field name="name">Mensajero</field>
+        </record>
+        <record id="website_hr_directory_job_13" model="hr.job">
+            <field name="name">Asistente de Soporte Técnico</field>
+        </record>
+        <record id="website_hr_directory_job_14" model="hr.job">
+            <field name="name">Ejecutivo de Compras</field>
+        </record>
+        <record id="website_hr_directory_job_15" model="hr.job">
+            <field name="name">Agente de Ventas</field>
+        </record>
+        <record id="website_hr_directory_job_16" model="hr.job">
+            <field name="name">Gerente de Recursos Humanos</field>
+        </record>
+        <record id="website_hr_directory_job_17" model="hr.job">
+            <field name="name">Supervisor (a) de Caja</field>
+        </record>
+        <record id="website_hr_directory_job_18" model="hr.job">
+            <field name="name">Supervisor de Bodega</field>
+        </record>
+        <record id="website_hr_directory_job_19" model="hr.job">
+            <field name="name">Contador</field>
+        </record>
+        <record id="website_hr_directory_job_20" model="hr.job">
+            <field name="name">Cajera (o)</field>
+        </record>
+        <record id="website_hr_directory_job_21" model="hr.job">
+            <field name="name">Supervisor de Soporte Tecnico</field>
+        </record>
+        <record id="website_hr_directory_job_22" model="hr.job">
+            <field name="name">Supervisor de Logistica</field>
+        </record>
+        <record id="website_hr_directory_job_23" model="hr.job">
+            <field name="name">Administrador de Sistemas</field>
+        </record>
+    </data>
+</openerp>
