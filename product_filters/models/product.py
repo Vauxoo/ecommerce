@@ -36,16 +36,36 @@ class ProductPriceRanges(models.Model):
         """Get price ranges given a domain, if the domain is not sent all
         ranges will be returned
 
-        @param domain: Basic domain used in search method, to search ranges
+        :param domain: Basic domain used in search method, to search ranges
         with specific values
-        @param: list
+        :type domain: list
 
-        @return: Records found by the search method
-        @rtype: RecordSet
+        :return: Records found by the search method
+        :rtype: RecordSet
         """
         domain = domain or []
         records = self.search(domain)
         return records
+
+    @api.model
+    def _get_related_ranges(self, products):
+        """Gets the price ranges that are valid for a given recordset of
+        products
+
+        :param products: Recordset of products to get ranges of.
+        :type products: recordset
+
+        :return: Rercordset of price ranges ordered from lower range to
+        highest range.
+        :rtype: recordset
+        """
+        related_ranges = self
+        for product in products:
+            related_ranges += self.search([
+                ('lower', '<=', product.list_price),
+                ('upper', '>', product.list_price),
+                ('id', 'not in', related_ranges._ids)])
+        return related_ranges.sorted(key=lambda r: r.lower)
 
 
 class ProductCategory(models.Model):
@@ -72,13 +92,13 @@ class ProductCategory(models.Model):
     def _get_async_ranges(self, category):
         """Get quantity of products per price range based on a given category.
 
-        @param category: The category id on which the quantities will be
+        :param category: The category id on which the quantities will be
         searched for.
-        @param: int
+        :type category: int
 
-        @return: List of dictionaries where the key is the id of the range
+        :return: List of dictionaries where the key is the id of the range
         and the value is the quantity of products found in that price range.
-        @rtype: dict
+        :rtype: dict
 
         """
         prod_obj = self.env['product.template']
@@ -100,13 +120,13 @@ class ProductCategory(models.Model):
         """Get quantity of products per attribute value based on a given
         category.
 
-        @param category: The category id on which the quantities will be
+        :param category: The category id on which the quantities will be
         searched for.
-        @param: int
+        :type category: int
 
-        @return: List of dictionaries where the key is the id of the range
+        :return: List of dictionaries where the key is the id of the range
         and the value is the quantity of products found in that price range.
-        @rtype: dict
+        :rtype: dict
 
         """
         prod_obj = self.env['product.template']
@@ -135,12 +155,12 @@ class ProductCategory(models.Model):
             rec.total_tree_products = prod_ids
             rec.has_products_ok = prod_ids > 0
 
-    @api.multi
-    def _get_attributes_related(self):
+    @api.model
+    def _get_attributes_related(self, products):
         """Find the attributes related among the products with any public category
 
-        @return: Attributes ids related to the category
-        @rtype: list, list
+        :return: Attributes ids related to the category
+        :rtype: list, list
 
         """
         attr_ids = []
@@ -158,36 +178,36 @@ class ProductCategory(models.Model):
                     product_tmpl_id IN %s
                 GROUP BY
                     l.attribute_id
-                         ''', (tuple(self.product_ids.ids or (0,)),))
+                         ''', (tuple(products._ids or (0,)),))
         for i in self._cr.fetchall():
             attr_ids.append(i[0])
 # pylint: disable=expression-not-assigned
             None in i[1] and attr_ids2.append(i[0])
         return attr_ids, attr_ids2
 
-    @api.multi
-    def _get_brands_related(self):
+    @api.model
+    def _get_brands_related(self, products):
         """Find the brands related among the products with the public category
 
-        @return: Ids of the branch related to the category
-        @rtype: list
+        :return: Ids of the branch related to the category
+        :rtype: list
         """
-        brand_ids = self.product_ids.mapped('product_brand_id')
+        brand_ids = products.mapped('product_brand_id')
         return brand_ids
 
     @api.multi
     def _get_product_sorted(self, sort, limit=3):
         """Get the products related with the category returned in an specific order
 
-        @param sort: Field which you want order the recordset returned
-        @type sort: str or unicode
+        :param sort: Field which you want order the recordset returned
+        :type sort: str or unicode
 
-        @param limit: Limit of the recorset returned
-        @type limit: int or long
+        :param limit: Limit of the recorset returned
+        :type limit: int or long
 
-        @return: All product found related with the current category recordset
+        :return: All product found related with the current category recordset
         considering the domain used in the search function
-        @rtype: recordset
+        :rtype: recordset
         """
         domain = [('website_published', '=', True),
                   ('public_categ_ids', 'child_of', self.id)]
@@ -202,12 +222,12 @@ class ProductCategory(models.Model):
         """Get categories given a domain, if the domain is not sent all
         ranges will be returned
 
-        @param domain: Basic domain used in search method, to search ranges
+        :param domain: Basic domain used in search method, to search ranges
         with specific values
-        @param: list
+        :type domain: list
 
-        @return: Records found by the search method
-        @rtype: RecordSet
+        :return: Records found by the search method
+        :rtype: RecordSet
         """
         domain = domain or []
         records = self.search(domain)
@@ -222,8 +242,8 @@ class ProductBrand(models.Model):
         """Get the public categories related
         with the products that contain these brands
 
-        @return: All public categories related with the brands
-        @rtype: RecordSet
+        :return: All public categories related with the brands
+        :rtype: RecordSet
         """
 
         pcategory = self.env['product.public.category']
@@ -233,3 +253,33 @@ class ProductBrand(models.Model):
         for product in products:
             pcategory = pcategory | product.public_categ_ids
         return pcategory
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    @api.model
+    def get_compute_currency(self):
+        """Retrieves the currency from any page of the website, its usable on
+        backend or frontend.
+
+        :return: compute_currency method.
+        :rtype: method
+        """
+        context = self.env.context
+        if context is None:
+            context = {}
+        vpartner = self.env['res.users'].browse(self.env.uid).partner_id
+        vpricelist = vpartner.property_product_pricelist
+        from_currency = self.env[
+            'product.price.type'].with_context(
+                pricelist=int(vpricelist),
+                partner=int(vpartner))._get_field_currency(
+                'list_price', ctx=context)
+        to_currency = vpricelist.currency_id
+
+        def compute_currency(price):
+            return self.env['res.currency']._compute(
+                from_currency, to_currency, price)
+
+        return compute_currency

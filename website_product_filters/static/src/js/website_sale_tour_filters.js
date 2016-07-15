@@ -3,12 +3,12 @@
     openerp.Tour.register({
         id: 'shop_test_filters',
         name: 'Test Shop With filters',
-        path: '/shop',
+        path: '/browse',
         mode: 'test',
         steps: [
             {
                 title: 'Click on category Computers',
-                element: 'li[data-categid="2"] a',
+                element: 'a[href="/browse/computers-2"]',
             },
             {
                 title: 'Click on category Devices',
@@ -104,16 +104,17 @@
             {
                 title: 'Click on Filter Unknown Memory',
                 waitFor: 'h5:contains(Samsung Galaxy Tab), h5:contains(Google Nexus Tab)',
+                waitNot: 'h5:contains(iPad Retina Display, iPhone 6s Plus)',
                 element: 'label:contains(Unknown) input',
             },
             {
                 title: 'Uncheck on Filter Unknown Memory',
-                waitNot: 'h5:contains(iPad Retina Display, iPhone 6s Plus)',
                 waitFor: '.sort_bar h4:contains(Unknown)',
                 element: 'label:contains(Unknown) input',
             },
             {
                 title: 'Finish Tour',
+                waitNot: '.sort_bar h4:contains(Unknown)',
             },
         ],
     });
