@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="1">
+    <record id="product.devices" model="product.public.category">
+      <field file="website_product_filters/static/img/devices.png" name="banner_image" type="base64"/>
+    </record>
+    <record id="product.sub_computers" model="product.public.category">
+      <field file="website_product_filters/static/img/computers.png" name="banner_image" type="base64"/>
+    </record>
+    <record id="product.computers" model="product.public.category">
+      <field file="website_product_filters/static/img/computers.png" name="banner_image" type="base64"/>
+    </record>
+  </data>
+</openerp>

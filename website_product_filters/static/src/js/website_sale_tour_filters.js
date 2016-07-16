@@ -102,19 +102,39 @@
                 element: 'label:contains(Apple)',
             },
             {
-                title: 'Click on Filter Unknown Memory',
+                title: 'Click on category Computers',
                 waitFor: 'h5:contains(Samsung Galaxy Tab), h5:contains(Google Nexus Tab)',
-                waitNot: 'h5:contains(iPad Retina Display, iPhone 6s Plus)',
-                element: 'label:contains(Unknown) input',
+                element: 'ul.breadcrumb li:contains(Computers) a',
             },
             {
-                title: 'Uncheck on Filter Unknown Memory',
+                title: 'Click on subcategory Computers',
+                waitFor: 'a:contains(Computers)',
+                element: '.nav-pills ul a:contains(Computers)',
+            },
+            {
+                title: 'Click on category Computer all-in-one',
+                waitFor: 'a:contains("Computer all-in-one")',
+                element: 'li[data-categid="22"] a:contains("Computer all-in-one")',
+            },
+            {
+                title: 'Click on Filter Unknown Memory',
+                waitFor: 'a:contains(Computers)',
+                element:   'form.js_attributes label:contains(Unknown) input:not(:checked)',
+
+            },
+            {
+                title: 'Wait for products to appear and tag to dissapear',
                 waitFor: '.sort_bar h4:contains(Unknown)',
-                element: 'label:contains(Unknown) input',
+                waitNot: 'h5:contains(iPad Retina Display), h5:contains(iPhone 6s Plus)',
+            },
+            {
+                title: 'Uncheck the Unknown Memory filter',
+                element:   'form.js_attributes label:contains(Unknown) input:checked',
             },
             {
                 title: 'Finish Tour',
                 waitNot: '.sort_bar h4:contains(Unknown)',
+                waitFor: 'h5:contains(iPad Retina Display), h5:contains(iPhone 6s Plus)',
             },
         ],
     });

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Product Public Categories -->
+        <record id="product_public_category_form_bimage_view" model="ir.ui.view">
+            <field name="name">product.public.category.bimage.form</field>
+            <field name="model">product.public.category</field>
+            <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+            <field name="arch" type="xml">
+                <field name="image_medium" position="after">
+                    <field class="oe_avatar oe_right" name="banner_image" widget="image"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

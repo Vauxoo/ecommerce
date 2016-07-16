@@ -3,8 +3,8 @@
     <data>
         <template id="website_product_filters.range_detail" name="Range Details">
           <label style="margin: 0 5px;" t-att-class="'upper upper'+str(r.id)" t-att-id="r.id">
-            <input type="checkbox" name="range" t-att-value="'%s' % (r.id)" t-att-checked="'checked' if r.id in ranges_set else ''"/>
-            <span style="font-weight: normal;" t-esc="r.lower" t-esc-options='{
+            <input class="att-range" t-att-data-id="r.id" type="checkbox" name="range" t-att-value="'%s' % (r.id)" t-att-checked="'checked' if r.id in ranges_set else ''"/>
+            <span  style="font-weight: normal;" t-esc="r.lower" t-esc-options='{
                                         "widget": "monetary",
                                         "from_currency": "user_id.partner_id.property_product_pricelist.currency_id",
                                         "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
@@ -21,7 +21,7 @@
         </template>
 
         <!-- TEMPLATE TO SHOW BRANDS AND ATTRIBUTES BASED ON CATEGORY -->
-        <template id="website_sale.products_attributes" inherit_id="website_sale.products_categories" active="False" customize_show="True" name="Product Attribute's Filters">
+        <template id="products_attributes" inherit_id="website_sale.products_categories" customize_show="True" name="Extended Filters">
           <xpath expr="//ul" position="after">
               <form class="js_attributes" method="get">
                 <t t-if="attributes and products">
@@ -40,7 +40,8 @@
                         <t t-if="a.type != 'hidden'">
                           <li t-if="a.value_ids and len(a.value_ids) > 1">
                             <div class="panel panel-default">
-                              <div class="panel-heading"><strong t-field="a.name"/></div>
+                              <div class="panel-heading"><strong t-field="a.name"/>                <a data-toggle="collapse" t-att-href="'#collapse'+a.name.replace(' ', '')"> <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i></a></div>
+                              <div t-att-id="'collapse'+a.name.replace(' ', '')" class="panel-collapse collapse in">
                               <div class="panel-body attr-list">
                               <t t-if="a.type == 'select'">
                                 <select class="form-control" name="attrib">
@@ -56,7 +57,7 @@
                                     <t t-foreach="a.value_ids" t-as="v">
                                       <t t-if="counter &lt; 6">
 
-                                        <li t-att-class="'active attribute' if v.id in attrib_set else 'attribute'">
+                                        <li t-att-data-visible="shown" t-att-class="'active attribute' if v.id in attrib_set else 'attribute'">
                                             <label style="margin: 0 5px;">
                                                 <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else ''"/>
                                                 <span t-att-id="v.id" class="att-value" style="font-weight: normal" t-field="v.name"/>
@@ -66,7 +67,7 @@
                                         </li>
                                       </t>
                                       <t t-if="counter >= 6">
-                                        <li t-att-class="'hidden active attribute' if v.id in attrib_set else 'hidden attribute'">
+                                        <li t-att-data-visible="not-shown" t-att-class="'hidden active attribute' if v.id in attrib_set else 'hidden attribute'">
                                             <label style="margin: 0 5px;">
                                                 <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else ''"/>
                                                 <span t-att-id="v.id" class="att-value" style="font-weight: normal" t-field="v.name"/>
@@ -109,6 +110,7 @@
                               </t>
 
                             </div>
+                            </div>
                            </div>
                           </li>
                         </t>
@@ -117,7 +119,8 @@
             </t>
             <t t-if="price_ranges and products">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Price Range</strong></div>
+                    <div class="panel-heading"><strong>Price Range</strong><a data-toggle="collapse" href="#collapseranges"> <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i></a></div>
+                    <div id="collapseranges" class="panel-collapse collapse in">
                     <div class="panel-body range-list">
                       <ul class="nav nav-pills nav-stacked">
                         <t t-set="counter" t-value="1"/>
@@ -139,18 +142,26 @@
                           </t>
                       </ul>
                     </div>
+                  </div>
                 </div>
             </t>
             <t t-if="brands and products">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Brands</strong></div>
+                    <div class="panel-heading"><strong>Brands</strong><a data-toggle="collapse" href="#collapsebrands"> <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i></a></div>
+                    <div id="collapsebrands" class="panel-collapse collapse in">
                     <div class="panel-body">
-                      <ul class="nav nav-pills nav-stacked">
+                      <div class="input-group mb16">
+                        <input id="input-search-brands" type="text" name="search-brands" class="search-query form-control" placeholder="Search brands..."/>
+                        <span class="input-group-btn">
+                          <a class="btn btn-default a-submit"><i class="fa fa-search"/></a>
+                        </span>
+                      </div>
+                      <ul class="nav nav-pills nav-stacked" id="filter-brands">
                           <t t-foreach="brands" t-as="b">
                           <li t-att-class="'brand active' if b.id in brand_set else ''">
                           <label style="margin: 0 5px;">
                                   <input type="checkbox" name="brand" t-att-value="'%s' % b.id" t-att-checked="'checked' if b.id in brand_set else ''"/>
-                            <span style="font-weight: normal" class="" t-field="b.name"/>
+                            <span style="font-weight: normal" class="att-brand" t-att-data-id="b.id" t-field="b.name"/>
                             <t t-set="brand_qty" t-value="env['product.template'].search([('id','in', products._ids),('product_brand_id','=', b.id)], count=True)"/>
                             <span class="black-text" t-esc="'(%s)' %brand_qty"></span>
                             </label>
@@ -158,6 +169,7 @@
                           </t>
                       </ul>
                     </div>
+                  </div>
                 </div>
             </t>
               </form>
@@ -192,8 +204,8 @@
                     <t t-call="website_product_filters.browse_breadcrumbs"/>
                 </ul>
               </t>
-                <ul class="breadcrumb pull-left panel-no-borders">
-                  <li t-if="not category">
+                <ul class="breadcrumb pull-left panel-no-borders" t-if="not category">
+                  <li>
                       <a t-att-href="keep('/browse', category=0)">
                           Shop
                       </a>
@@ -226,9 +238,35 @@
                       </h4>
                     </t>
                   </t>
+                  <t t-foreach="brands" t-as="brand">
+                    <t t-if="brand.id in brand_set">
+                      <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                        <span class="label label-warning">
+                          <t t-esc="brand.name"></t>
+                            <a t-att-data-brandvalue="brand.id" class="removable-badge">
+                              <i class="fa"></i>
+                              <sup><i class="fa fa-times"></i></sup>
+                            </a>
+                        </span>
+                      </h4>
+                    </t>
+                  </t>
+                  <t t-foreach="price_ranges" t-as="r">
+                    <t t-if="r.id in ranges_set">
+                      <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                        <span class="label label-warning">
+                          <t t-esc="'%s - %s' %(r.lower, r.upper)"></t>
+                            <a t-att-data-rangevalue="r.id" class="removable-badge">
+                              <i class="fa"></i>
+                              <sup><i class="fa fa-times"></i></sup>
+                            </a>
+                        </span>
+                      </h4>
+                    </t>
+                  </t>
                 </div>
             </div>
-            <div class="col-md-3 pull-right">
+            <div class="col-md-3 pull-right" id="search-box-container">
             <t t-call="website_product_filters.search"/>
             </div>
               <t t-if="products">
@@ -311,7 +349,9 @@
             <div class="panel panel-default" t-if="related_categories and products">
               <div class="panel-heading">
                 <strong>Categories</strong>
+                <a data-toggle="collapse" href="#collapsecategories"> <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i></a>
               </div>
+              <div id="collapsecategories" class="panel-collapse collapse in">
               <div class="panel-body">
                 <ul class="nav nav-pills nav-stacked">
                     <t t-foreach="related_categories" t-as="categ">
@@ -330,6 +370,7 @@
                     </div>
                   </t>
                 </ul>
+              </div>
               </div>
             </div>
           </xpath>
@@ -387,7 +428,7 @@
             <li t-att-class="'active box-shadow-any'" t-att-data-categid="categ.id">
               <a href="#">
                 <div class="active" data-categid="2">
-                  Select a Category
+                  <strong>Select a Category</strong>
                 </div>
               </a>
             </li>
@@ -399,7 +440,7 @@
             <!-- Link itself of category with the qty of products -->
             <t t-if="has_product">
               <a t-attf-href="#{categ.child_id and keep('/browse/' + slug(categ), category=0) or keep('/shop/category/' + slug(categ), category=0)}">
-                <div t-att-class="'active' if categ.id == int(category or 0) else 'text-center inactive subcategory'" t-att-data-categid="categ.id">
+                <div t-att-class="'active' if categ.id == int(category or 0) and categ.child_id else 'text-center inactive subcategory'" t-att-data-categid="categ.id">
                   <t t-esc="'%s ' %(categ.name)"/>
                   <t t-if="categ.id != int(category or 0)">
                     <span class="black-text">
@@ -426,7 +467,7 @@
 
         <template id="browse_by_category" name="Browse By Category">
           <t t-call="website.layout">
-            <div id="wrap">
+            <div id="wrap" class="wrap-relative">
               <div class="oe_structure"/>
               <t t-set="compute_currency" t-value="env['product.template'].get_compute_currency()"/>
               <div class="container hidden-xs hidden-sm">
@@ -452,7 +493,7 @@
             <t t-foreach="categories" t-as="parent_categs">
               <t t-if="parent_categs.child_id">
               <div class="col-md-9 pull-right mt16 category-tiles mb16" >
-                <div class="panel-heading"><b class="title"><span>Categories of </span><t t-esc="parent_categs.name"/></b></div>
+                <div class="panel-heading mt16"><b class="title"><span>Categories of </span><t t-esc="parent_categs.name"/></b></div>
                 <t t-foreach="parent_categs.child_id" t-as="child_categ">
                  <t t-if="child_categ.has_products_ok">
                   <div id="categories_grid" class='col-md-4 col-xs-6 col-sm-4 mb16'>
@@ -566,7 +607,7 @@
                 <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
               </t>
             </t>
-            <div class="input-group">
+            <div class="input-group" id="search_oncategs_input">
               <input type="text" name="search" class="search-query form-control" placeholder="Search..." t-att-value="search"/>
               <span class="input-group-btn">
                 <a class="btn btn-default a-submit"><i class="fa fa-search"/></a>
@@ -574,6 +615,24 @@
           </div>
 
           </form>
+        </template>
+
+        <template id="big_background_image" inherit_id="browse_by_category" name="Show Background Image on Category Page" customize_show="True" active="False">
+          <xpath expr="//div[@class='oe_structure']" position="before">
+            <t t-if="category">
+              <div class="oe_structure" id="non-intrusive-categ-img" t-att-style="'background-image: url(%s)' % (website.image_url(category, 'banner_image'))">
+                <h1 t-if="category" t-esc="category.name"></h1>
+              </div>
+            </t>
+            <t t-if="not category">
+              <div class="oe_structure" id="non-intrusive-categ-img" style="background-image: url(website_product_filters/static/img/panama.png)">
+                <h1>Categories</h1>
+              </div>
+            </t>
+          </xpath>
+          <xpath expr="//div[@class='subcategories']" position="attributes">
+            <attribute name="class">subcategories subcategories-more-margin</attribute>
+          </xpath>
         </template>
     </data>
 </openerp>

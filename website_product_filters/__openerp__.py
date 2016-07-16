@@ -10,11 +10,14 @@
         "product_filters",
     ],
     "demo": [
+        'demo/website_product_filters_demo.xml',
+        'demo/demo.yml',
     ],
     "data": [
         'views/assets.xml',
         'views/templates.xml',
         'views/res_config.xml',
+        'views/views.xml',
         'data/data.xml',
         'data/filters_data.yml',
         'data/website_settings_data.xml',

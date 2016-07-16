@@ -62,3 +62,12 @@ class WebsiteProductMetadata(models.Model):
         "product_public_category_product_template_rel",
         "product_template_id",
         "product_public_category_id")
+
+
+class ProductCategory(models.Model):
+    _inherit = 'product.public.category'
+
+    banner_image = fields.Binary(
+        "Banner Image",
+        help="""This field holds the image used as image for the category on
+        the banner on the website when navigating by category.""")
