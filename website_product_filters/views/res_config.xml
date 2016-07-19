@@ -10,6 +10,9 @@
                         <group string="E-commerce">
                             <field name="default_sort"/>
                         </group>
+                        <group string="Website Filtering">
+                            <field name="maximum_attributes"/>
+                        </group>
                 </xpath>
             </field>
         </record>

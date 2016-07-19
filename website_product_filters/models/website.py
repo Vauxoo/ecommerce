@@ -36,6 +36,13 @@ class Website(models.Model):
          ('hottest', 'Hottest'),
          ('rating', 'Customer Rating'),
          ('popularity', 'Popularity')], defult="popularity")
+    maximum_attributes = fields.Integer(
+        'No. Attribute Panels to Show',
+        help=""""Determines the maximum quantity of attribute panels displayed
+        uncollapsed in the filters columns, if the quantity of attributes to
+        display is greater than the value set here, the remainning panels will
+        be collapsed.
+        """)
 
     @api.model
     def sale_product_domain(self):

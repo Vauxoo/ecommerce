@@ -7,6 +7,7 @@
                 value_id = $element.data('attrvalue'),
                 unknown_id = $element.data('attr-unknown'),
                 brand_id = $element.data('brandvalue'),
+                search_tag = $element.data('searchtag'),
                 range_id = $element.data('rangevalue');
             $element.parents("h4").remove();
             if (value_id) {
@@ -20,6 +21,10 @@
             }
             if (range_id) {
                 $(".att-range[data-id='"+range_id+"']").trigger('click');
+            }
+            if (search_tag) {
+                $("input[name='search']").val('');
+                $("input[name='search']")[0].closest('form').submit();
             }
         });
     });
