@@ -23,6 +23,11 @@ class WebsiteSale(website_sale):
                                             search=search, brand=brand,
                                             ppg=ppg,
                                             **post)
+        empty = not post.get('attrs', False) and not search and not brand and \
+            not post.get('range', False) and not post.get('unknown', False) \
+            and not category
+        if empty:
+            return request.redirect('/browse/')
         category_obj = pool['product.public.category']
         brand_list = request.httprequest.args.getlist('brand')
         brand_selected_ids = [int(b) for b in brand_list if b]

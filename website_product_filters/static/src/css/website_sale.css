@@ -101,4 +101,38 @@ div.product-group-stripes-browse {
 #search_oncategs_input {
     background-color: #FFF;
 }
-
+.inline-hs {
+    display: inline;
+}
+.panel.no-product {
+    background-color: #f5f5f5;
+}
+.panel-body.no-product {
+    border-radius: 4px;
+    margin: 0px;
+    background-color: #FFF;
+    margin-bottom:15px;
+}
+.panel-heading.no-product {
+}
+.panel-heading.no-product > h3{
+    margin-top: 0px;
+}
+.breadcrumb-holder-vx > .breadcrumb.pull-left.panel-no-borders {
+    background-color: unset;
+}
+.breadcrumb-holder-vx > .breadcrumb > li > a {
+    color: white;
+}
+#products_grid_before > div.panel > div.panel-collapse > div.panel-body {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#products_grid_before > form > div.panel > div.panel-collapse > div.panel-body {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#products_grid_before > form > ul > li > div.panel > div.panel-collapse > div.panel-body {
+    padding-left: 0px;
+    padding-right: 0px;
+}

@@ -195,11 +195,94 @@
           </xpath>
         </template>
 
+        <template id="filter_tags" name="Filter Tags Selected">
+          <div class="text-left mt3" id="filter_tags_stripe">
+                <t t-if="search">
+                    <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                      <span class="label label-warning">
+                        <t t-esc="'%s %s'%(category.name+':' if category else '', search)"></t>
+                          <a class="removable-badge" t-att-data-searchtag="1">
+                            <i class="fa"></i>
+                            <sup><i class="fa fa-times"></i></sup>
+                          </a>
+                      </span>
+                    </h4>
+                </t>
+            <t t-foreach="attributes" t-as="a">
+              <t t-foreach="a.value_ids" t-as="v">
+                <t t-if="v.id in attrib_set">
+                    <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                      <span class="label label-warning">
+                        <t t-esc="v.name"></t>
+                          <a t-att-data-attrvalue="v.id" class="removable-badge">
+                            <i class="fa"></i>
+                            <sup><i class="fa fa-times"></i></sup>
+                          </a>
+                      </span>
+                    </h4>
+                </t>
+              </t>
+              <t t-if="a.id in unknown_set">
+                <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                  <span class="label label-warning">
+                    <t t-esc="a.name + ': Unknown'"></t>
+                      <a t-att-data-attr-unknown="a.id" class="removable-badge">
+                        <i class="fa"></i>
+                        <sup><i class="fa fa-times"></i></sup>
+                      </a>
+                  </span>
+                </h4>
+              </t>
+            </t>
+            <t t-foreach="brands" t-as="brand">
+              <t t-if="brand.id in brand_set">
+                <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                  <span class="label label-warning">
+                    <t t-esc="brand.name"></t>
+                      <a t-att-data-brandvalue="brand.id" class="removable-badge">
+                        <i class="fa"></i>
+                        <sup><i class="fa fa-times"></i></sup>
+                      </a>
+                  </span>
+                </h4>
+              </t>
+            </t>
+            <t t-foreach="price_ranges" t-as="r">
+              <t t-if="r.id in ranges_set">
+                <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
+                  <span class="label label-warning">
+                    <t t-esc="'%s - %s' %(r.lower, r.upper)"></t>
+                      <a t-att-data-rangevalue="r.id" class="removable-badge">
+                        <i class="fa"></i>
+                        <sup><i class="fa fa-times"></i></sup>
+                      </a>
+                  </span>
+                </h4>
+              </t>
+            </t>
+          </div>
+        </template>
+        <template id="sorter_input" name="Input That Sorts Products">
+          <div class="col-md-2 pull-right">
+            <form class="js_attributes" method="get">
+              <select t-att-value="sortby" class="form-control yoytec-input mt3" id="product_sorter" name="product_sorter">
+                <option value="0" selected="selected">Sort By...</option>
+                <option value="name" t-attf-selected="#{'selected' if sortby == 'name' else ''}">Product Name</option>
+                <option value="pasc" t-attf-selected="#{'selected' if sortby == 'pasc' else ''}">Price Lowest</option>
+                <option value="pdesc" t-attf-selected="#{'selected' if sortby == 'pdesc' else ''}">Price Highest</option>
+                <option value="hottest" t-attf-selected="#{'selected' if sortby == 'hottest' else ''}">Hottest</option>
+                <option value="rating" t-attf-selected="#{'selected' if sortby == 'rating' else ''}">Customer Rating</option>
+                <option value="popularity" t-attf-selected="#{'selected' if sortby == 'popularity' else ''}">Popularity</option>
+              </select>
+
+            </form>
+          </div>
+        </template>
         <template id="product_sort_bar" inherit_id="website_sale.products" active="True">
           <xpath expr="//div[@class='products_pager']/div[@class='row']/t[@t-call='website_sale.search']" position="replace">
 
-            <div class="container sort_bar mt16">
-            <div class="col-md-6 panel-no-margins">
+            <div id="sort_bar" class="container sort_bar mt16">
+            <div t-if="products" class="col-md-6 panel-no-margins">
               <t t-if="category">
                 <ul class="breadcrumb pull-left panel-no-borders">
                     <t t-set="current_category" t-value="category"/>
@@ -213,90 +296,13 @@
                       </a>
                   </li>
                 </ul>
-                <div class="text-left mt3">
-                      <t t-if="search">
-                          <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
-                            <span class="label label-warning">
-                              <t t-esc="'%s %s'%(category.name+':' if category else '', search)"></t>
-                                <a class="removable-badge" t-att-data-searchtag="1">
-                                  <i class="fa"></i>
-                                  <sup><i class="fa fa-times"></i></sup>
-                                </a>
-                            </span>
-                          </h4>
-                      </t>
-                  <t t-foreach="attributes" t-as="a">
-                    <t t-foreach="a.value_ids" t-as="v">
-                      <t t-if="v.id in attrib_set">
-                          <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
-                            <span class="label label-warning">
-                              <t t-esc="v.name"></t>
-                                <a t-att-data-attrvalue="v.id" class="removable-badge">
-                                  <i class="fa"></i>
-                                  <sup><i class="fa fa-times"></i></sup>
-                                </a>
-                            </span>
-                          </h4>
-                      </t>
-                    </t>
-                    <t t-if="a.id in unknown_set">
-                      <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
-                        <span class="label label-warning">
-                          <t t-esc="a.name + ': Unknown'"></t>
-                            <a t-att-data-attr-unknown="a.id" class="removable-badge">
-                              <i class="fa"></i>
-                              <sup><i class="fa fa-times"></i></sup>
-                            </a>
-                        </span>
-                      </h4>
-                    </t>
-                  </t>
-                  <t t-foreach="brands" t-as="brand">
-                    <t t-if="brand.id in brand_set">
-                      <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
-                        <span class="label label-warning">
-                          <t t-esc="brand.name"></t>
-                            <a t-att-data-brandvalue="brand.id" class="removable-badge">
-                              <i class="fa"></i>
-                              <sup><i class="fa fa-times"></i></sup>
-                            </a>
-                        </span>
-                      </h4>
-                    </t>
-                  </t>
-                  <t t-foreach="price_ranges" t-as="r">
-                    <t t-if="r.id in ranges_set">
-                      <h4 class="inline-hs panel-no-borders" style="margin: 0 1px;">
-                        <span class="label label-warning">
-                          <t t-esc="'%s - %s' %(r.lower, r.upper)"></t>
-                            <a t-att-data-rangevalue="r.id" class="removable-badge">
-                              <i class="fa"></i>
-                              <sup><i class="fa fa-times"></i></sup>
-                            </a>
-                        </span>
-                      </h4>
-                    </t>
-                  </t>
-                </div>
+                <t t-call="website_product_filters.filter_tags"/>
             </div>
-            <div class="col-md-3 pull-right" id="search-box-container">
+            <div class="col-md-4 pull-right" id="search-box-container">
             <t t-call="website_product_filters.search"/>
             </div>
               <t t-if="products">
-                <div class="col-md-3 pull-right">
-                  <form class="js_attributes" method="get">
-                    <select t-att-value="sortby" class="form-control yoytec-input mt3" id="product_sorter" name="product_sorter">
-                      <option value="0" selected="selected">Sort By...</option>
-                      <option value="name" t-attf-selected="#{'selected' if sortby == 'name' else ''}">Product Name</option>
-                      <option value="pasc" t-attf-selected="#{'selected' if sortby == 'pasc' else ''}">Price Lowest</option>
-                      <option value="pdesc" t-attf-selected="#{'selected' if sortby == 'pdesc' else ''}">Price Highest</option>
-                      <option value="hottest" t-attf-selected="#{'selected' if sortby == 'hottest' else ''}">Hottest</option>
-                      <option value="rating" t-attf-selected="#{'selected' if sortby == 'rating' else ''}">Customer Rating</option>
-                      <option value="popularity" t-attf-selected="#{'selected' if sortby == 'popularity' else ''}">Popularity</option>
-                    </select>
-
-                  </form>
-                </div>
+                <t t-call="website_product_filters.sorter_input"/>
               </t>
               <form t-att-action="keep('/shop'+ ('/category/'+slug(category)) if category else '', search=0)" method="get" t-att-class="search_class">
                 <t t-if="attrib_values">
@@ -309,7 +315,44 @@
           </xpath>
           <xpath expr="//div[@class='products_pager']/div[@class='row']/t[@t-call='website.pager']" position="replace">
           </xpath>
+          <xpath expr="//div[@id='products_grid']" position="after">
+            <t t-if="not products">
+              <div class="panel no-product col-md-10 col-md-offset-1 col-xs-12">
+                <div class="panel-heading no-product">
+                  <h3>Search Results</h3>
+                  </div>
+                <div class="panel-body no-product">
+                  <div class="text-center text-muted col-md-12">
+                    <p class="text-danger">No results found for: <strong><t t-esc="search"/></strong></p>
+                    <p>Please try another search...</p>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <h5>Can we help you find something?</h5>
+                    <b>Ask our Experts!</b>
 
+                    <p>Call: <a t-att-href="'tel:%s'%website.company_id.phone"><t t-esc="website.company_id.phone"></t></a></p>
+                    Search Feedback? <a t-att-href="'mailto:%s'%website.company_id.email">Help us improve</a>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <h5>Search Tips</h5>
+                    <ul>
+                      <li>Try to select alternatives or check spelling</li>
+                      <li>Improve your search by using less words<br/>(You can be more specific afterwards)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </xpath>
+        </template>
+        <template id="tags_in_new_line" inherit_id="website_product_filters.product_sort_bar" name="Tags In New Line" active="False" customize_show="True">
+          <xpath expr="//t[@t-call='website_product_filters.filter_tags']" position="replace">
+          </xpath>
+          <xpath expr="//div[@id='sort_bar']" position="after">
+            <div class="col-md-12 mb8">
+              <t t-call="website_product_filters.filter_tags"/>
+            </div>
+          </xpath>
         </template>
         <!-- TEMPLATE TO SHOW RATING ON PRODUCT LIST -->
         <template id="product_list_rating" inherit_id="website_sale.products_item" active="True">
@@ -480,136 +523,134 @@
 
         <template id="browse_by_category" name="Browse By Category">
           <t t-call="website.layout">
-            <div id="wrap" class="wrap-relative">
+            <div class="wrap-relative" id="wrap">
               <div class="oe_structure"/>
               <t t-set="compute_currency" t-value="env['product.template'].get_compute_currency()"/>
+              <!-- DESKTOP VIEW -->
               <div class="container hidden-xs hidden-sm">
-                <div class="col-md-12 mt16">
+                <div class="col-md-12 mt16 breadcrumb-holder-vx">
                   <t t-if="category">
                     <ul class="breadcrumb pull-left panel-no-borders">
-                        <t t-set="current_category" t-value="category"/>
-                        <t t-call="website_product_filters.browse_breadcrumbs"/>
+                      <t t-set="current_category" t-value="category"/>
+                      <t t-call="website_product_filters.browse_breadcrumbs"/>
                     </ul>
                   </t>
                   <div class="col-md-4 pull-right">
                     <t t-call="website_product_filters.search"/>
                   </div>
                 </div>
-            <div class="subcategories">
-            <div class="col-md-3 subcategories-widget mt16">
-            <ul class="nav nav-pills nav-stacked" id="o_shop_collapse_category">
-              <t t-foreach="categories" t-as="categ">
-                <t t-call="website_product_filters.browse_categories_recursive"/>
-              </t>
-            </ul>
-          </div>
-            <t t-foreach="categories" t-as="parent_categs">
-              <t t-if="parent_categs.child_id">
-              <div class="col-md-9 pull-right mt16 category-tiles mb16" >
-                <div class="panel-heading mt16"><b class="title"><span>Categories of </span><t t-esc="parent_categs.name"/></b></div>
-                <t t-foreach="parent_categs.child_id" t-as="child_categ">
-                 <t t-if="child_categ.has_products_ok">
-                  <div id="categories_grid" class='col-md-4 col-xs-6 col-sm-4 mb16'>
-                      <div class='mt16 text-center'>
-                          <a t-attf-href="#{child_categ.child_id and '/browse/' + slug(child_categ) or '/shop/category/' + slug(child_categ) }">
-                            <span t-field="child_categ.image_medium" t-field-options='{"widget": "image"}'/>
-                          </a>
-                          <h5>
-                              <a t-attf-href="#{child_categ.child_id and '/browse/' + slug(child_categ) or '/shop/category/' + slug(child_categ) }" style="display: block">
-                                  <span t-field='child_categ.name' style="display: block"/>
-                              </a>
-                          </h5>
+                <div class="subcategories">
+                  <div class="col-md-3 subcategories-widget mt16">
+                    <ul class="nav nav-pills nav-stacked" id="o_shop_collapse_category">
+                      <t t-as="categ" t-foreach="categories">
+                        <t t-call="website_product_filters.browse_categories_recursive"/>
+                      </t>
+                    </ul>
+                  </div>
+                  <t t-as="parent_categs" t-foreach="categories">
+                    <t t-if="parent_categs.child_id">
+                      <div class="col-md-9 pull-right mt16 category-tiles mb16">
+                        <div class="panel-heading mt16">
+                          <b class="title">
+                            <span>Categories of </span>
+                            <t t-esc="parent_categs.name"/>
+                          </b>
+                        </div>
+                        <t t-as="child_categ" t-foreach="parent_categs.child_id">
+                          <t t-if="child_categ.has_products_ok">
+                            <div class="col-md-4 col-xs-6 col-sm-4 mb16" id="categories_grid">
+                              <div class="mt16 text-center">
+                                <a t-attf-href="#{child_categ.child_id and '/browse/' + slug(child_categ) or '/shop/category/' + slug(child_categ) }">
+                                  <span t-field="child_categ.image_medium" t-field-options="{&quot;widget&quot;: &quot;image&quot;}"/>
+                                </a>
+                                <h5>
+                                  <a style="display: block" t-attf-href="#{child_categ.child_id and '/browse/' + slug(child_categ) or '/shop/category/' + slug(child_categ) }">
+                                    <span style="display: block" t-field="child_categ.name"/>
+                                  </a>
+                                </h5>
+                              </div>
+                            </div>
+                          </t>
+                        </t>
                       </div>
+                    </t>
+                  </t>
+                </div>
+                <t t-if="populars">
+                  <div class="product-group-stripes-browse col-md-9 pull-right mt16 mb16">
+                    <div class="panel panel-default panel-heading white-bg">
+                      <b>
+                        <span class="title">Popular products in </span>
+                        <t t-esc="categories.name"/>
+                      </b>
+                    </div>
+                    <t t-as="popular" t-foreach="populars">
+                      <div class="col-md-4 col-xs-6 col-sm-4 mb16" id="popular_products_grid">
+                        <div class="mt16 text-center">
+                          <a t-attf-href="/shop/product/#{ slug(popular) }">
+                            <span t-field="popular.image_medium" t-field-options="{&quot;widget&quot;: &quot;image&quot;}"/>
+                          </a>
+                          <t t-set="product" t-value="popular"/>
+                          <t t-call="website_rate_product.show_product_rating"/>
+                          <h5>
+                            <a style="display: block" t-attf-href="/shop/product/#{ slug(popular) }">
+                              <span style="display: block" t-field="popular.name"/>
+                            </a>
+                          </h5>
+                          <t t-set="p_price" t-value="popular.with_context({'partner': user_id.partner_id.id, 'pricelist': user_id.partner_id.property_product_pricelist.id}).price"/>
+                          <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" t-if="popular.product_variant_ids">
+                            <b>
+                              <t t-if="(compute_currency(popular.lst_price) - p_price) &gt; 0.1">
+                                <del class="text-danger" style="white-space: nowrap;" t-field="popular.lst_price" t-field-options="{                                         &quot;widget&quot;: &quot;monetary&quot;,                                         &quot;from_currency&quot;: &quot;popular.company_id.currency_id&quot;,                                         &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                                       }"/>
+                              </t>
+                              <span style="white-space: nowrap;" t-esc="p_price" t-esc-options="{                                            &quot;widget&quot;: &quot;monetary&quot;,                                            &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                                        }"/>
+                              <span itemprop="price" style="display:none;" t-esc="p_price"/>
+                              <span itemprop="priceCurrency" style="display:none;" t-field="user_id.partner_id.property_product_pricelist.currency_id.name"/>
+                            </b>
+                          </div>
+                        </div>
+                      </div>
+                    </t>
                   </div>
                 </t>
+                <t t-if="newest">
+                  <div class="product-group-stripes-browse col-md-9 pull-right mt16 mb32">
+                    <div class="panel panel-default panel-heading white-bg">
+                      <b>
+                        <span class="title">Newest products in </span>
+                        <t t-esc="categories.name"/>
+                      </b>
+                    </div>
+                    <t t-as="new_p" t-foreach="newest">
+                      <div class="col-md-4 col-xs-6 col-sm-4 mb16" id="popular_products_grid">
+                        <div class="mt16 text-center">
+                          <a t-attf-href="/shop/product/#{ slug(new_p) }">
+                            <span t-field="new_p.image_medium" t-field-options="{&quot;widget&quot;: &quot;image&quot;}"/>
+                          </a>
+                          <h5>
+                            <a style="display: block" t-attf-href="/shop/product/#{ slug(new_p) }">
+                              <span style="display: block" t-field="new_p.name"/>
+                            </a>
+                          </h5>
+                          <t t-set="p_price" t-value="new_p.with_context({'partner': user_id.partner_id.id, 'pricelist': user_id.partner_id.property_product_pricelist.id}).price"/>
+                          <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" t-if="new_p.product_variant_ids">
+                            <b>
+                              <t t-if="(compute_currency(new_p.lst_price) - p_price) &gt; 0.1">
+                                <del class="text-danger" style="white-space: nowrap;" t-field="new_p.lst_price" t-field-options="{                                         &quot;widget&quot;: &quot;monetary&quot;,                                         &quot;from_currency&quot;: &quot;new_p.company_id.currency_id&quot;,                                         &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                                       }"/>
+                              </t>
+                              <span style="white-space: nowrap;" t-esc="p_price" t-esc-options="{                                            &quot;widget&quot;: &quot;monetary&quot;,                                            &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                                        }"/>
+                              <span itemprop="price" style="display:none;" t-esc="p_price"/>
+                              <span itemprop="priceCurrency" style="display:none;" t-field="user_id.partner_id.property_product_pricelist.currency_id.name"/>
+                            </b>
+                          </div>
+                        </div>
+                      </div>
+                    </t>
+                  </div>
                 </t>
+                <div class="oe_structure"/>
               </div>
-            </t>
-            </t>
-           </div>
-          <t t-if="populars">
-              <div class="product-group-stripes-browse col-md-9 pull-right mt16 mb16">
-                <div class="panel panel-default panel-heading white-bg"><b><span class="title">Popular products in </span><t t-esc="categories.name"/></b></div>
-                  <t t-foreach="populars" t-as="popular">
-                    <div id="popular_products_grid" class='col-md-4 col-xs-6 col-sm-4 mb16'>
-                        <div class='mt16 text-center'>
-                            <a t-attf-href="/shop/product/#{ slug(popular) }">
-                              <span t-field="popular.image_medium" t-field-options='{"widget": "image"}'/>
-                            </a>
-                            <t t-set="product" t-value="popular"/>
-                            <t t-call="website_rate_product.show_product_rating"/>
-                            <h5>
-                                <a t-attf-href="/shop/product/#{ slug(popular) }" style="display: block">
-                                    <span t-field='popular.name' style="display: block"/>
-                                </a>
-                            </h5>
-                            <t t-set="p_price" t-value="popular.with_context({'partner': user_id.partner_id.id, 'pricelist': user_id.partner_id.property_product_pricelist.id}).price"/>
-                            <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price" t-if="popular.product_variant_ids">
-                                <b>
-                                    <t t-if="(compute_currency(popular.lst_price) - p_price) &gt; 0.1">
-                                      <del class="text-danger" style="white-space: nowrap;" t-field="popular.lst_price" t-field-options='{
-                                        "widget": "monetary",
-                                        "from_currency": "popular.company_id.currency_id",
-                                        "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                                      }'/>
-                                    </t>
-                                      <span t-esc="p_price" style="white-space: nowrap;"  t-esc-options='{
-                                           "widget": "monetary",
-                                           "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                                       }'>
-                                      </span>
-
-                                    <span itemprop="price" style="display:none;" t-esc="p_price"/>
-                                    <span itemprop="priceCurrency" style="display:none;" t-field="user_id.partner_id.property_product_pricelist.currency_id.name"/>
-                                </b>
-                            </div>
-                        </div>
-                    </div>
-                  </t>
-              </div>
-          </t>
-          <t t-if="newest">
-              <div class="product-group-stripes-browse col-md-9 pull-right mt16 mb32">
-                <div class="panel panel-default panel-heading white-bg"><b><span class="title">Newest products in </span><t t-esc="categories.name"/></b></div>
-                  <t t-foreach="newest" t-as="new_p">
-                    <div id="popular_products_grid" class='col-md-4 col-xs-6 col-sm-4 mb16'>
-                        <div class='mt16 text-center'>
-                            <a t-attf-href="/shop/product/#{ slug(new_p) }">
-                              <span t-field="new_p.image_medium" t-field-options='{"widget": "image"}'/>
-                            </a>
-                            <h5>
-                                <a t-attf-href="/shop/product/#{ slug(new_p) }" style="display: block">
-                                    <span t-field='new_p.name' style="display: block"/>
-                                </a>
-                            </h5>
-                            <t t-set="p_price" t-value="new_p.with_context({'partner': user_id.partner_id.id, 'pricelist': user_id.partner_id.property_product_pricelist.id}).price"/>
-                            <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price" t-if="new_p.product_variant_ids">
-                                <b>
-                                    <t t-if="(compute_currency(new_p.lst_price) - p_price) &gt; 0.1">
-                                      <del class="text-danger" style="white-space: nowrap;" t-field="new_p.lst_price" t-field-options='{
-                                        "widget": "monetary",
-                                        "from_currency": "new_p.company_id.currency_id",
-                                        "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                                      }'/>
-                                    </t>
-                                      <span t-esc="p_price" style="white-space: nowrap;"  t-esc-options='{
-                                           "widget": "monetary",
-                                           "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                                       }'>
-                                      </span>
-
-                                    <span itemprop="price" style="display:none;" t-esc="p_price"/>
-                                    <span itemprop="priceCurrency" style="display:none;" t-field="user_id.partner_id.property_product_pricelist.currency_id.name"/>
-                                </b>
-                            </div>
-                        </div>
-                    </div>
-                  </t>
-              </div>
-            </t>
-            <div class="oe_structure"/>
-              </div>
-              </div>
+            </div>
           </t>
         </template>
         <template id="search" name="Search only shop">
@@ -621,7 +662,18 @@
               </t>
             </t>
             <div class="input-group" id="search_oncategs_input">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <t t-esc="'%s '%category.name if category else 'All Products '"/><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <t t-set="root_categories" t-value="env['product.public.category'].search([('has_products_ok', '=', True), ('parent_id', '=', False)])"/>
+                  <li><a href="#" class="search-box-category-list" data-filter-box-categid="0">All Products</a></li>
+                  <t t-foreach="root_categories" t-as="categ">
+                    <li><a href="#" class="search-box-category-list" t-att-data-filter-box-categid="categ.id" t-esc="categ.name"/></li>
+                  </t>
+                </ul>
+              </div>
               <input required="required" pattern=".{2,}" title="2 characters minimum" type="text" name="search" class="search-query form-control" placeholder="Search..." t-att-value="search"/>
+              <input type="hidden" name="category" t-attf-value="#{category.id if category else ''}" class="form-control"/>
               <span class="input-group-btn">
                 <a class="btn btn-default a-submit"><i class="fa fa-search"/></a>
               </span>

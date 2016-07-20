@@ -6,7 +6,7 @@
             url: "/get_ranges",
             method: "POST",
             data: {category: $("#products_grid_before li.active").data("categid")},
-            beforeSend: function( xhr ){
+            beforeSend: function(){
                 $('.upper').after(' <i class="fa fa-spinner fa-spin"></i>');
                }
             }).done(function( data ){
