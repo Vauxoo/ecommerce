@@ -4,7 +4,7 @@
     <template id="directory_footer_link" inherit_id="website.footer_default">
       <xpath expr="//li/a[@href='/page/website.contactus']" position="after">
         <li>
-          <a href="/directory">Directory</a>
+          <a href="/directory">Our Team</a>
         </li>
       </xpath>
     </template>
@@ -47,7 +47,7 @@
         <div id="wrap">
           <div class="oe_structure"/>
           <div class="container hidden-xs hidden-sm">
-            <h2>Our Directory</h2>
+            <h2>Our Team</h2>
             <div class="row" id="directory_div">
               <div class="col-md-3">
                 <ul class="nav nav-tabs nav-pills nav-stacked well" id="nav-tabs-wrapper">
@@ -91,7 +91,7 @@
             </div>
           </div>
           <div class="container hidden-lg">
-            <h2 class="text-center">Our Directory</h2>
+            <h2 class="text-center">Our Team</h2>
             <div class="row mb64 pr15">
               <t t-as="dept" t-foreach="departments">
                 <div class="col-xs-6 col-sm-4">
