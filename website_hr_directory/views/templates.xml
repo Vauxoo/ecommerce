@@ -29,9 +29,11 @@
             <i class="fa fa-phone fa-fw" t-if="employee.work_phone"/>
             <span class="text-info oe_subdescription" t-field="employee.work_phone"/>
           </div>
-          <div>
+          <div class="obfuscated-email">
             <i class="fa fa-envelope fa-fw" t-if="employee.work_email"/>
-            <span class="text-info oe_subdescription" t-field="employee.work_email"/>
+            <a t-att-data-name-email="employee.work_email.split('@')[0]" t-att-data-domain-email="employee.work_email.split('@')[1]">
+            <span class="text-info oe_subdescription" t-esc="employee.work_email.split('@')"/>
+          </a>
           </div>
           <div>
             <i class="fa fa-info fa-fw" t-if="employee.public_info"/>
@@ -147,8 +149,12 @@
             <i class="fa fa-phone fa-fw" t-if="employee.work_phone"/>
             <span class="text-info oe_subdescription" t-field="employee.work_phone"/>
             <br/>
-            <i class="fa fa-envelope fa-fw" t-if="employee.work_email"/>
-            <span class="text-info oe_subdescription" t-field="employee.work_email"/>
+            <span class="obfuscated-email">
+              <i class="fa fa-envelope fa-fw" t-if="employee.work_email"/>
+              <a t-att-data-name-email="employee.work_email.split('@')[0]" t-att-data-domain-email="employee.work_email.split('@')[1]">
+              <span class="text-info oe_subdescription" t-esc="employee.work_email.split('@')"/>
+            </a>
+            </span>
             </div>
           </div>
         </div>
