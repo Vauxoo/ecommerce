@@ -39,8 +39,7 @@ class WebsiteSale(website_sale):
         ranges_selected_ids = [int(v) for v in ranges_list if v]
         unknown_set = set([x[0] for x in unknown_values])
         ranges = ranges_obj._get_all_ranges(cr, uid, [])
-        categ_id = (isinstance(category, int) or
-                    isinstance(category, basestring)) and \
+        categ_id = (isinstance(category, (int, basestring))) and \
             int(category) or category and category.id or 0
         attributes_ids, att_unkn_ids = category_obj.\
             _get_attributes_related(cr, uid,
