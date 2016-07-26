@@ -23,6 +23,7 @@ class WebsiteSale(website_sale):
                                             search=search, brand=brand,
                                             ppg=ppg,
                                             **post)
+
         empty = not post.get('attrs', False) and not search and not brand and \
             not post.get('range', False) and not post.get('unknown', False) \
             and not category
@@ -31,7 +32,9 @@ class WebsiteSale(website_sale):
         category_obj = pool['product.public.category']
         brand_list = request.httprequest.args.getlist('brand')
         brand_selected_ids = [int(b) for b in brand_list if b]
-        column_data = self.build_filter_column(res, post)
+        attrib_list = request.httprequest.args.getlist('attrib')
+        av = [map(int, v.split("-")) for v in attrib_list if v]
+        column_data = self.build_filter_column(res, post, search, category, av)
         res.qcontext.update(column_data)
         # Update the URL with processed data
         products = res.qcontext['products']
@@ -53,7 +56,7 @@ class WebsiteSale(website_sale):
         res.qcontext.update(keep)
         return res
 
-    def build_filter_column(self, res, post):
+    def build_filter_column(self, res, post, search, category, attrib_values):
         """Builds the filter column, taking in account the data recieved it
         will be returning the values of all the filters with more specific
         values, alowing to filter only by values that are available.
@@ -69,7 +72,22 @@ class WebsiteSale(website_sale):
         the form column filters.
         :rtype: dict
         """
-        cr, uid, pool = (request.cr, request.uid, request.registry)
+        domain = [('sale_ok', '=', True)]
+        if search:
+            for srch in search.split(" "):
+                domain += [
+                    '|', '|', '|', ('name', 'ilike', srch),
+                    ('description', 'ilike', srch),
+                    ('description_sale', 'ilike', srch),
+                    ('product_variant_ids.default_code', 'ilike', srch)]
+        if category:
+            domain += [('public_categ_ids', 'child_of', int(category))]
+        cr, uid, pool, context = (request.cr, request.uid, request.registry,
+                                  request.context)
+        product_obj = pool['product.template']
+        prods_ids = product_obj.search(cr, uid, domain, context=context)
+        all_prods = product_obj.browse(cr, uid, prods_ids, context=context)
+        original_products = res.qcontext['products']
         category_obj = pool['product.public.category']
         ranges_obj = pool['product.price.ranges']
         ranges_list = request.httprequest.args.getlist('range')
@@ -81,7 +99,6 @@ class WebsiteSale(website_sale):
         ranges_selected_ids = [int(v) for v in ranges_list if v]
         unknown_values = [map(int, a.split("-")) for a in unknown_list if a]
         unknown_set = set([x[0] for x in unknown_values])
-        all_prods = res.qcontext['products']
         all_attr, all_unknown = category_obj._get_attributes_related(
             cr, uid, all_prods)
         all_categories = res.qcontext.get(
@@ -92,7 +109,7 @@ class WebsiteSale(website_sale):
         all_ranges = ranges_obj._get_related_ranges(cr, uid, all_prods)
         all_brands = category_obj._get_brands_related(cr, uid, all_prods)
         ordered_products, sortby = self.website_sort_products(
-            all_prods, default_cookie, post)
+            original_products, default_cookie, post)
         column_data = {
             'related_categories': all_categories,
             'attributes': all_attributes,
@@ -103,6 +120,7 @@ class WebsiteSale(website_sale):
             'ranges_set': ranges_selected_ids,
             'unknown_set': unknown_set,
             'products': ordered_products,
+            'product_qtys': all_prods,
         }
         # pylint: disable=expression-not-assigned
         post.get('product_sorter', '0') != '0' and column_data.update({'sortby': sortby})  # noqa
@@ -202,3 +220,66 @@ class WebsiteSale(website_sale):
         }
         return request.website.render(
             "website_product_filters.browse_by_category", values)
+
+    def _get_search_domain(self, search, category, attrib_values):
+        """This method is a replacement of the original website_sale class,
+        replaced because the original domain is non inclusive and uses `and`
+        conditions but `or` conditions are required to make the the search
+        incremental instead of decremental.
+
+        :param category: The category to build a domain.
+        :type category: object
+
+        :param attrib_values: List of selected attribute filters.
+        :type attrib_values: list
+
+        :return: Domain list, formatted as a binary search tree by right.
+        :rtype: list
+        """
+
+        domain = request.website.sale_product_domain()
+        unknown_domain = []
+
+        if search:
+            for srch in search.split(" "):
+                domain += [
+                    '|', '|', '|', ('name', 'ilike', srch),
+                    ('description', 'ilike', srch),
+                    ('description_sale', 'ilike', srch),
+                    ('product_variant_ids.default_code', 'ilike', srch)]
+
+        if category:
+            domain += [('public_categ_ids', 'child_of', int(category))]
+
+        if request.params.get('unknown', False):
+            line_obj = request.env['product.attribute.line']
+            unknown_list = request.httprequest.args.getlist('unknown')
+            values = [map(int, v.split("-")) for v in unknown_list if v]
+            ids = []
+            for value in values:
+                if value[0] not in ids:
+                    ids.append(value[0])
+            line_ids = line_obj.search([('attribute_id', 'in', ids),
+                                        ('value_ids', '=', False)])
+            unknown_domain += attrib_values and ['|'] or []
+            unknown_domain += [('attribute_line_ids', 'in', line_ids._ids)]
+            domain += unknown_domain
+
+        if attrib_values:
+            attrib = None
+            ids = []
+            for value in attrib_values:
+                if not attrib:
+                    attrib = value[0]
+                    ids.append(value[1])
+                elif value[0] == attrib:
+                    ids.append(value[1])
+                else:
+                    domain += [
+                        '|',
+                        ('attribute_line_ids.value_ids', 'in', ids)]
+                    attrib = value[0]
+                    ids = [value[1]]
+            if attrib:
+                domain += [('attribute_line_ids.value_ids', 'in', ids)]
+        return domain

@@ -30,6 +30,10 @@ span.black-text {
     color: #000 !important;
     font-weight: bold !important;
 }
+span.gray-text {
+    color: #787878 !important;
+    font-weight: normal !important;
+}
     .img-responsive {
         display: inline;
 }
@@ -87,6 +91,26 @@ div.product-group-stripes-browse {
     color: white;
     background-color: #787878;
 }
+#non-intrusive-categ-img-mob {
+    height: 150px;
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    color: white;
+    background-color: #787878;
+    margin-top: 40px;
+}
+#non-intrusive-categ-img-mob > h1 {
+    padding-left: 10%;
+}
+.background-category-grid {
+    background-color: white;
+    margin-top: 130px;
+    margin-left:15px;
+}
+.background-category-grid > div > b {
+    padding-left: 30px;
+}
 #non-intrusive-categ-img > h1 {
     margin-top: 100px;
     padding-left: 17%;
@@ -102,7 +126,7 @@ div.product-group-stripes-browse {
     background-color: #FFF;
 }
 .inline-hs {
-    display: inline;
+    display: inline-block;
 }
 .panel.no-product {
     background-color: #f5f5f5;
@@ -124,15 +148,55 @@ div.product-group-stripes-browse {
 .breadcrumb-holder-vx > .breadcrumb > li > a {
     color: white;
 }
-#products_grid_before > div.panel > div.panel-collapse > div.panel-body {
+#input_search_mobile > form > div > input {
+    height: 43px;
+}
+#input_search_mobile > form > div > div > button {
+    line-height: 29px;
+}
+#input_search_mobile > form > div > span > a {
+    line-height: 29px;
+}
+#sort_bar_mobile > div {
+    padding: 0px;
+}
+div.pd16{
+    padding: 16px;
+    font-size: 18px;
+}
+.underlined-mobile-header {
+    border-bottom: 1px solid #adadad;
+}
+div > div.button-holder > button {
+    margin-top: 10px;
+}
+.panel-heading-mobile-filters {
+    font-size: 18px;
+    margin: 15px;
+}
+a.collapser-mobile {
+    text-decoration: none;
+}
+.pd16 > label {
+    font-weight: normal;
+}
+.attr-list-no-paddings {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.css_attribute_color_mobile {
+    min-width: 60px;
+    min-height: 60px;
+}
+.browse-by-categories-mobile > div > a.thumbnail {
+    padding-top: calc(80%);
+}
+#breadcrumbs_mobile > ul {
+    background-color: unset;
+    margin-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
 }
-#products_grid_before > form > div.panel > div.panel-collapse > div.panel-body {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-#products_grid_before > form > ul > li > div.panel > div.panel-collapse > div.panel-body {
-    padding-left: 0px;
-    padding-right: 0px;
+#breadcrumbs_mobile > .breadcrumb > li + li::before {
+    padding: 0px;
 }
