@@ -22,6 +22,12 @@
         <record id="product.Computer_all_in_one" model="product.public.category">
           <field name="image_medium" type="base64" file="product_filters/static/img/aio.png"/>
         </record>
+        <record id="product.laptops" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/laptop.png"/>
+        </record>
+        <record id="product.Headset" model="product.public.category">
+          <field name="image_medium" type="base64" file="product_filters/static/img/headset.png"/>
+        </record>
 
         <record id="brand_apple" model="product.brand">
             <field name="name">Apple</field>

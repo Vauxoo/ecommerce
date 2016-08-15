@@ -36,11 +36,18 @@ class Website(models.Model):
          ('hottest', 'Hottest'),
          ('rating', 'Customer Rating'),
          ('popularity', 'Popularity')], defult="popularity")
+    maximum_attributes = fields.Integer(
+        'No. Attribute Panels to Show',
+        help=""""Determines the maximum quantity of attribute panels displayed
+        uncollapsed in the filters columns, if the quantity of attributes to
+        display is greater than the value set here, the remainning panels will
+        be collapsed.
+        """)
 
     @api.model
     def sale_product_domain(self):
+        domain = super(Website, self).sale_product_domain()
         rg_domain = []
-        unknown_domain = []
         brand_domain = []
         if request.params.get('brand', False):
             brand_arg = request.httprequest.args.getlist('brand')
@@ -51,19 +58,8 @@ class Website(models.Model):
             ranges_list = request.httprequest.args.getlist('range')
             ranges_selected_ids = [int(v) for v in ranges_list if v]
             ranges_selected = ranges_obj.browse(ranges_selected_ids)
-            for rang in ranges_selected:
-                rg_domain.append(('lst_price', '>=', rang.lower))
-                rg_domain.append(('lst_price', '<=', rang.upper))
-        if request.params.get('unknown', False):
-            line_obj = self.env['product.attribute.line']
-            unknown_list = request.httprequest.args.getlist('unknown')
-            values = [map(int, v.split("-")) for v in unknown_list if v]
-            ids = []
-            for value in values:
-                if value[0] not in ids:
-                    ids.append(value[0])
-            line_ids = line_obj.search([('attribute_id', 'in', ids),
-                                        ('value_ids', '=', False)])
-            unknown_domain.append(('attribute_line_ids', 'in', line_ids._ids))
-        domain = super(Website, self).sale_product_domain()
-        return domain + rg_domain + unknown_domain + brand_domain
+            for idx, rang in enumerate(ranges_selected):
+                rg_domain += ['|'] if len(ranges_selected) != idx + 1 else []
+                rg_domain += ['&', ('lst_price', '>=', rang.lower),
+                              ('lst_price', '<=', rang.upper)]
+        return rg_domain + brand_domain + domain

@@ -1,7 +1,7 @@
 # coding: utf-8
+import json
 from openerp import http
 from openerp.http import request
-import json
 
 
 class WebsiteAsync(http.Controller):

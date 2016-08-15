@@ -30,3 +30,6 @@ class Website(models.TransientModel):
 
     default_sort = fields.Selection(string='Default Sort',
                                     related='website_id.default_sort')
+    maximum_attributes = fields.Integer(
+        'No. Attribute Panels to Show',
+        related='website_id.maximum_attributes')

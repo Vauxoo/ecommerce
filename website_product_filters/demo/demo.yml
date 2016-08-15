@@ -1,0 +1,5 @@
+-
+    website_product_filters enable products_categories big banner
+-
+  !python {model: ir.ui.view}: |
+    self.write(cr, uid, [ref('website_product_filters.big_background_image')], {'active': True}, context={'active_test': True})

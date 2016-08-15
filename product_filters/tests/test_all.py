@@ -8,6 +8,10 @@ class TestFilterMethods(TransactionCase):
 
     def setUp(self):
         super(TestFilterMethods, self).setUp()
+        self.attr_products = \
+            self.env.ref('product.product_product_4_product_template') + \
+            self.env.ref('product.product_product_3_product_template') + \
+            self.env.ref('product.product_product_25_product_template')
         self.ranges_obj = self.env['product.price.ranges']
         self.ranges_ids = [self.env.ref('product_filters.price_range_1').id,
                            self.env.ref('product_filters.price_range_2').id,
@@ -54,6 +58,11 @@ class TestFilterMethods(TransactionCase):
             self.env.ref('product.product_product_9_product_template').id,
             self.env.ref('product.product_product_7_product_template').id,
         ]
+        self.selected_ranges = [
+            self.env.ref('product_filters.price_range_3').id,
+            self.env.ref('product_filters.price_range_4').id,
+            self.env.ref('product_filters.price_range_5').id,
+        ]
 
     def test_01_ranges(self):
         """Tests if all the price ranges are retrieved
@@ -86,14 +95,15 @@ class TestFilterMethods(TransactionCase):
         """Tests if the attributes retrieved are the ones of the category and
         tests if the attribute has unknown values for certain products.
         """
-        known, unknown = self.category_aio._get_attributes_related()
+        known, unknown = self.category_aio._get_attributes_related(
+            self.attr_products)
         self.assertEqual(known, self.known)
         self.assertEqual(unknown, self.unknown)
 
     def test_06_brands_related(self):
         """Test the brands related to the category All-in-One
         """
-        res = self.category_aio._get_brands_related()
+        res = self.category_aio._get_brands_related(self.attr_products)
         self.assertEqual(set(res._ids), set(self.brands))
 
     def test_07_test_all_categories(self):
@@ -108,6 +118,12 @@ class TestFilterMethods(TransactionCase):
         """
         res = self.category_obj._get_product_sorted('rating DESC')
         self.assertEqual(set(res._ids), set(self.highest_rated))
+
+    def test_09_test_related_ranges(self):
+        """ Tests case: bring ipad, galaxy and nexus price ranges.
+        """
+        res = self.ranges_obj._get_related_ranges(self.attr_products)
+        self.assertEqual(set(res._ids), set(self.selected_ranges))
 
 
 class TestBrand(TransactionCase):
