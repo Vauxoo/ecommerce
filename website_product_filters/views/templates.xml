@@ -403,13 +403,13 @@
                     </div>
                   </div>
                   <div class="mb0" t-if="related_categories and products">
-                    <a data-toggle="collapse" href="#collapsecategories">
+                    <a data-toggle="collapse" href="#collapsecategoriesMob">
                       <div class="panel-heading panel-heading-mobile-filters text-left mt0 mb0">
                         <strong>Categories</strong>
                         <i aria-hidden="true" class="fa fa-plus pull-right"/>
                       </div>
                     </a>
-                    <div class="panel-collapse collapse underlined-mobile-header underlined-mobile-header" id="collapsecategories">
+                    <div class="panel-collapse collapse underlined-mobile-header underlined-mobile-header" id="collapsecategoriesMob">
                       <div class="panel-body">
                         <ul class="nav nav-pills nav-stacked">
                           <t t-as="categ" t-foreach="related_categories">
@@ -448,13 +448,13 @@
                           <t t-if="a.type != 'hidden'">
                             <t t-if="a.value_ids and len(a.value_ids) &gt;1">
                               <div class="mb0">
-                                <a data-toggle="collapse" class="collapser-mobile" t-att-href="'#collapse'+a.name.replace(' ', '')">
+                                <a data-toggle="collapse" class="collapser-mobile" t-att-href="'#collapse'+a.name.replace(' ', '')+'Mob'">
                                   <div class="panel-heading panel-heading-mobile-filters text-left">
                                     <strong t-field="a.name"/>
                                     <i aria-hidden="true" class="fa fa-plus pull-right"/>
                                   </div>
                                 </a>
-                                <div class="panel-collapse collapse underlined-mobile-header" t-att-id="'collapse'+a.name.replace(' ', '')">
+                                <div class="panel-collapse collapse underlined-mobile-header" t-att-id="'collapse'+a.name.replace(' ', '')+'Mob'">
                                   <div class="panel-body attr-list attr-list-no-paddings">
                                     <t t-if="a.type == 'select'">
                                       <select class="form-control" name="attrib">
@@ -520,13 +520,13 @@
                     </t>
                     <t t-if="price_ranges and products">
                       <div class="mb0">
-                        <a data-toggle="collapse" class="collapser-mobile" href="#collapseranges">
+                        <a data-toggle="collapse" class="collapser-mobile" href="#collapserangesMob">
                           <div class="panel-heading panel-heading-mobile-filters text-left mt0">
                             <strong>Price Range</strong>
                             <i aria-hidden="true" class="fa fa-plus pull-right"/>
                           </div>
                         </a>
-                        <div class="panel-collapse collapse underlined-mobile-header" id="collapseranges">
+                        <div class="panel-collapse collapse underlined-mobile-header" id="collapserangesMob">
                           <div class="panel-body range-list attr-list-no-paddings">
                             <ul class="nav nav-pills nav-stacked">
                               <t t-set="counter" t-value="1"/>
@@ -554,13 +554,13 @@
                     </t>
                     <t t-if="brands and products">
                       <div class="mb0">
-                        <a data-toggle="collapse" class="collapser-mobile" href="#collapsebrands">
+                        <a data-toggle="collapse" class="collapser-mobile" href="#collapsebrandsMob">
                           <div class="panel-heading panel-heading-mobile-filters text-left mb0">
                             <strong>Brands</strong>
                             <i aria-hidden="true" class="fa fa-plus pull-right"/>
                           </div>
                         </a>
-                        <div class="panel-collapse collapse underlined-mobile-header" id="collapsebrands">
+                        <div class="panel-collapse collapse underlined-mobile-header" id="collapsebrandsMob">
                           <div class="panel-body attr-list-no-paddings">
                             <t t-as="b" t-foreach="brands">
                               <t t-set="brand_qty" t-value="env['product.template'].search([('id','in', product_qtys._ids),('product_brand_id','=', b.id)], count=True)"/>
