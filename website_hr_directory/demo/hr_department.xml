@@ -3,7 +3,7 @@
     <data>
         <record id="website_hr_directory_department_1" model="hr.department">
             <field name="name">Administración</field>
-            <field name="website_published">0</field>
+            <field name="website_published" eval="False"/>
             <field name="icon">fa-briefcase</field>
         </record>
         <record id="website_hr_directory_department_2" model="hr.department">
@@ -13,7 +13,7 @@
         </record>
         <record id="website_hr_directory_department_3" model="hr.department">
             <field name="name">Bodega</field>
-            <field name="website_published">0</field>
+            <field name="website_published" eval="False"/>
             <field name="icon">fa-cubes</field>
         </record>
         <record id="website_hr_directory_department_4" model="hr.department">
@@ -28,7 +28,7 @@
         </record>
         <record id="website_hr_directory_department_6" model="hr.department">
             <field name="name">Limpieza</field>
-            <field name="website_published">0</field>
+            <field name="website_published" eval="False"/>
             <field name="icon">fa-user</field>
         </record>
         <record id="website_hr_directory_department_7" model="hr.department">
@@ -38,7 +38,7 @@
         </record>
         <record id="website_hr_directory_department_8" model="hr.department">
             <field name="name">Contabilidad</field>
-            <field name="website_published">0</field>
+            <field name="website_published" eval="False"/>
             <field name="icon">fa-file-text</field>
         </record>
         <record id="website_hr_directory_department_9" model="hr.department">
