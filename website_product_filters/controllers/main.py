@@ -72,6 +72,7 @@ class WebsiteSale(website_sale):
         the form column filters.
         :rtype: dict
         """
+        brand = request.params.get('brand', False)
         domain = [('sale_ok', '=', True)]
         if search:
             for srch in search.split(" "):
@@ -84,6 +85,11 @@ class WebsiteSale(website_sale):
             domain += [('public_categ_ids', 'child_of', int(category))]
         cr, uid, pool, context = (request.cr, request.uid, request.registry,
                                   request.context)
+        if brand and not search and not category:
+            brand_arg = request.httprequest.args.getlist('brand')
+            brand_list = [int(v) for v in brand_arg if v]
+            domain += [('product_brand_id', 'in', brand_list)]
+
         product_obj = pool['product.template']
         prods_ids = product_obj.search(cr, uid, domain, context=context)
         all_prods = product_obj.browse(cr, uid, prods_ids, context=context)

@@ -3,12 +3,16 @@
     openerp.Tour.register({
         id: 'shop_test_filters',
         name: 'Test Shop With filters',
-        path: '/browse',
+        path: '/shop?brand=1',
         mode: 'test',
         steps: [
             {
+                title: 'Click on root navigation "Shop"',
+                element: 'ul.breadcrumb:contains(Shop) a',
+            },
+            {
                 title: 'Click on category Computers',
-                element: 'a[href="/browse/computers-2"]',
+                element: 'a[href="/browse/computers-2"] div.inactive:contains(Computers)',
             },
             {
                 title: 'Click on category Devices',
