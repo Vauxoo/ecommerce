@@ -96,7 +96,7 @@
                                             <label style="margin: 0 5px;">
                                               <input type="checkbox" name="unknown" t-att-value="'%s-0' % (a.id)" t-att-checked="'checked' if a.id in unknown_set else ''"/>
                                               <span t-att-data-id="a.id" t-att-id="a.id" class="att-unknown " style="font-weight: normal">Unknown</span>
-                                              <t t-set="unknown_qty" t-value="env['product.attribute.line'].search([('product_tmpl_id', 'in', product_qtys._ids),('value_ids', '=', False)], count=True)"/>
+                                              <t t-set="unknown_qty" t-value="env['product.attribute.line'].search([('product_tmpl_id', 'in', product_qtys._ids),('attribute_id','=', a.id),('value_ids', '=', False)], count=True)"/>
                                               <span class="black-text" t-esc="'(%s)'%unknown_qty"></span>
                                             </label>
                                         </li>
@@ -495,7 +495,7 @@
                                               <label class="text-left" for="unknown_filter_attr_id">Unknown</label>
                                             </div>
                                             <div class="pd16 col-sm-1 col-xs-1">
-                                              <t t-set="unknown_qty" t-value="env['product.attribute.line'].search([('product_tmpl_id', 'in', product_qtys._ids),('value_ids', '=', False)], count=True)"/>
+                                              <t t-set="unknown_qty" t-value="env['product.attribute.line'].search([('product_tmpl_id', 'in', product_qtys._ids),('attribute_id','=', a.id),('value_ids', '=', False)], count=True)"/>
                                               <span class="gray-text pull-right" t-esc="'(%s)'%unknown_qty"/>
                                             </div>
                                         </t>
