@@ -821,7 +821,7 @@
             <!-- Link itself of category with the qty of products -->
             <t t-if="has_product">
               <a t-attf-href="#{categ.child_id and keep('/browse/' + slug(categ), category=0) or keep('/shop/category/' + slug(categ), category=0)}">
-                <div t-att-class="'active' if categ.id == int(category or 0) and categ.child_id else 'text-center inactive subcategory'" t-att-data-categid="categ.id">
+                <div t-att-class="'active' if categ.id == int(category or 0) and categ.child_id else 'text-left inactive subcategory'" t-att-data-categid="categ.id">
                   <t t-esc="'%s ' %(categ.name)"/>
                   <t t-if="categ.id != int(category or 0)">
                     <span class="black-text">
